@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/dashbaord/dashboard.dart';
-import 'package:hes_entertainment/entry/sign_up.dart';
+import 'package:hes_entertainment/qrs/gen_qr_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const Dashboard(),
+      home: const GenerateQr(),
     );
   }
 }

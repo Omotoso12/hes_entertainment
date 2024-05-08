@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hes_entertainment/dashbaord/check_up.dart';
 
 class TimeValue {
   final double _key;
@@ -15,6 +16,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   double _result = 0.0;
+  double _price = 0.0;
+  bool _visible = false;
 
   final _radioOptions = [
     TimeValue(1, "1 person"),
@@ -199,6 +202,8 @@ class _DashboardState extends State<Dashboard> {
                                 onChanged: (value) {
                                   setState(() {
                                     _result = value!.toDouble();
+                                    _price = value.toDouble() * 3000;
+                                    _visible = true;
                                   });
                                 },
                               ))
@@ -206,7 +211,67 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
 
-                  Text('$_result'),
+                  Visibility(
+                    visible: _visible,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 38,
+                          width: 70,
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 162, 210, 24),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                            child: Text(
+                              '$_price',
+                              //₦
+                              style: const TextStyle(
+                                  color: Color.fromARGB(
+                                    255,
+                                    1,
+                                    88,
+                                    168,
+                                  ),
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.02,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: _visible
+                        ? () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return CheckUp(value: _result, price: _price);
+                            }));
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(120, 38),
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text(
+                      'Proceed',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 0.02,
+                  ),
                 ],
               ),
             ),
