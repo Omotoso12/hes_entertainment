@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/dashbaord/check_up.dart';
+import 'package:hes_entertainment/entry/auth_manger.dart';
 
 class TimeValue {
   final double _key;
@@ -18,6 +20,7 @@ class _DashboardState extends State<Dashboard> {
   double _result = 0.0;
   double _price = 0.0;
   bool _visible = false;
+  final HandleAuth authHandler = HandleAuth();
 
   final _radioOptions = [
     TimeValue(1, "1 person"),
@@ -26,8 +29,12 @@ class _DashboardState extends State<Dashboard> {
     TimeValue(4, "4 people"),
     TimeValue(5, "5 people"),
   ];
+
+  final firebaseUser = FirebaseAuth.instance.currentUser!.email;
+
   @override
   Widget build(BuildContext context) {
+    final List<String> name = firebaseUser.toString().split('@');
     return Scaffold(
       body: Container(
         width: MediaQuery.sizeOf(context).width,
@@ -117,11 +124,11 @@ class _DashboardState extends State<Dashboard> {
                         fontWeight: FontWeight.w500,
                         fontSize: 24),
                   ),
-                  const SizedBox(
-                    width: 210,
+                  SizedBox(
+                    width: 250,
                     child: Row(
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Welcome',
                           style: TextStyle(
                               color: Color.fromARGB(255, 162, 210, 24),
@@ -130,13 +137,13 @@ class _DashboardState extends State<Dashboard> {
                               fontSize: 14),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            '@ajaorichard30',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14),
+                            '@${name[0]}',
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],

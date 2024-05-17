@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/entry/sign_up.dart';
+import 'package:hes_entertainment/widgets/form_field.dart';
+import 'package:hes_entertainment/widgets/string_ext.dart';
+import 'package:hes_entertainment/entry/auth_manger.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -8,9 +11,19 @@ class SignIn extends StatefulWidget {
   State<SignIn> createState() => _SignInState();
 }
 
-TextEditingController textFieldController = TextEditingController();
+TextEditingController _emailFieldController = TextEditingController();
+TextEditingController _passwordFieldController = TextEditingController();
+final _formKey = GlobalKey<FormState>();
 
 class _SignInState extends State<SignIn> {
+  @override
+  void dispose() {
+    // textfield dispose control
+    _emailFieldController.dispose();
+    _passwordFieldController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +99,9 @@ class _SignInState extends State<SignIn> {
                   //////////////////////////////////////////////////////////////////////////////////////
                   ElevatedButton(
                       onPressed: () {
-                        dialogPopUp();
+                        _emailFieldController.clear();
+                        _passwordFieldController.clear();
+                        _popUpNew();
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(178, 48),
@@ -134,106 +149,112 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  dialogPopUp() {
-    showDialog(
-        context: context,
-        builder: ((context) {
-          return StatefulBuilder(builder: (context, setStateForDialog) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              scrollable: true,
-              backgroundColor: const Color.fromARGB(255, 5, 19, 32),
-              content: Column(children: <Widget>[
-                /// email input field constainer...
-                ///
-                SizedBox(
-                  height: 76,
-                  width: 300,
+  _popUpNew() {
+    final HandleAuth authHandler = HandleAuth();
+    showGeneralDialog(
+      context: context,
+      transitionDuration: const Duration(milliseconds: 600),
+      barrierDismissible: true,
+      barrierLabel: '',
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return widget;
+      },
+      transitionBuilder: (context, Animation<double> animation1,
+          Animation<double> animation2, Widget widget) {
+        final curvedValue =
+            Curves.easeInOutBack.transform(animation1.value) - 1.0;
+        return Transform(
+          transform: Matrix4.translationValues(0.0, -curvedValue * 500, 0.0),
+          child: AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            scrollable: true,
+            backgroundColor: const Color.fromARGB(255, 5, 19, 32),
+            content: Column(children: <Widget>[
+              Form(
+                  key: _formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text('Email',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                          )),
-                      TextField(
-                        style: const TextStyle(fontSize: 12),
-                        controller: textFieldController,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 212, 226, 169),
-                                  width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 162, 210, 24),
-                                  width: 2)),
+                      SizedBox(
+                        width: 300,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Email',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                )),
+                            CustomFormField(
+                                controller: _emailFieldController,
+                                validator: (value) {
+                                  if (value == null || !value.isValidEmail) {
+                                    return 'Please enter a valid email address';
+                                  }
+                                  return null; // Return null if validation
+                                }),
+                          ],
+                        ),
+                      ),
+                      // password form field
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.03,
+                      ),
+                      SizedBox(
+                        width: 300,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Password',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                )),
+                            CustomFormField(
+                                controller: _passwordFieldController,
+                                validator: (value) {
+                                  if (value == null || !value.isValidPassword) {
+                                    return 'Please enter a valid password';
+                                  }
+                                  if (value.characters.length <= 6) {
+                                    return 'password must be more than six';
+                                  }
+                                  return null; // Return null if validation
+                                }),
+                          ],
                         ),
                       ),
                     ],
-                  ),
-                ),
+                  )),
 
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.03,
-                ),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.03,
+              ),
 
-                /// password input field conatiner
-                SizedBox(
-                  height: 76,
-                  width: 300,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('password',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                          )),
-                      TextField(
-                        style: const TextStyle(fontSize: 12),
-                        controller: textFieldController,
-                        enableInteractiveSelection: false,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 212, 226, 169),
-                                  width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 162, 210, 24),
-                                  width: 2)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.03,
-                ),
-
-                /// sign up button
-                ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(266, 48),
-                        backgroundColor: const Color.fromARGB(51, 83, 113, 140),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: Text(
-                      'Sign Up',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ))
-              ]),
-            );
-          });
-        }));
+              /// sign up button
+              ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      authHandler.signIn(_emailFieldController.text.trim(),
+                          _passwordFieldController.text.trim(), context);
+                    } else {
+                      return;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(266, 48),
+                      backgroundColor: const Color.fromARGB(51, 83, 113, 140),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Sign Up',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ))
+            ]),
+          ),
+        );
+      },
+    );
   }
 }

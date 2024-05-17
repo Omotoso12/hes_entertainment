@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/entry/sign_in.dart';
+import 'package:hes_entertainment/widgets/form_field.dart';
+import 'package:hes_entertainment/widgets/string_ext.dart';
+import 'package:hes_entertainment/entry/auth_manger.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -8,9 +11,21 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-TextEditingController textFieldController = TextEditingController();
+TextEditingController _emailFieldController = TextEditingController();
+TextEditingController _passwordFieldController = TextEditingController();
+TextEditingController _confirmFieldController = TextEditingController();
+final _formKey = GlobalKey<FormState>();
 
 class _SignUpState extends State<SignUp> {
+  @override
+  void dispose() {
+    // textfield dispose control
+    _emailFieldController.dispose();
+    _passwordFieldController.dispose();
+    _confirmFieldController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +42,6 @@ class _SignUpState extends State<SignUp> {
               padding:
                   EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.1),
               child: Column(
-                // Column is also a layout widget. It takes a list of children and
-                // arranges them vertically. By default, it sizes itself to fit its
-                // children horizontally, and tries to be as tall as its parent.
-
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const Text(
@@ -86,7 +97,10 @@ class _SignUpState extends State<SignUp> {
                   //////////////////////////////////////////////////////////////////////////////////////
                   ElevatedButton(
                       onPressed: () {
-                        dialogPopUp();
+                        _emailFieldController.clear();
+                        _passwordFieldController.clear();
+                        _confirmFieldController.clear();
+                        _dialogPopUp();
                       },
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(178, 48),
@@ -134,124 +148,114 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  dialogPopUp() {
-    showDialog(
+  _dialogPopUp() {
+    final HandleAuth authHandler = HandleAuth();
+    showGeneralDialog(
         context: context,
-        builder: ((context) {
-          return StatefulBuilder(builder: (context, setStateForDialog) {
-            return AlertDialog(
+        transitionDuration: const Duration(milliseconds: 600),
+        barrierDismissible: true,
+        barrierLabel: '',
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) {
+          return widget;
+        },
+        transitionBuilder: (context, Animation<double> animation1,
+            Animation<double> animation2, Widget widget) {
+          final curvedValue =
+              Curves.easeInOutBack.transform(animation1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, -curvedValue * 500, 0.0),
+            child: AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               scrollable: true,
               backgroundColor: const Color.fromARGB(255, 5, 19, 32),
               content: Column(children: <Widget>[
-                /// email input field constainer...
-                ///
-                SizedBox(
-                  height: 76,
-                  width: 300,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('Email',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                          )),
-                      TextField(
-                        style: const TextStyle(fontSize: 12),
-                        controller: textFieldController,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 212, 226, 169),
-                                  width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 162, 210, 24),
-                                  width: 2)),
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Email',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                  )),
+                              CustomFormField(
+                                  controller: _emailFieldController,
+                                  validator: (value) {
+                                    if (value == null || !value.isValidEmail) {
+                                      return 'Please enter a valid email address';
+                                    }
+                                    return null; // Return null if validation
+                                  }),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.03,
-                ),
-
-                /// password input field conatiner
-                SizedBox(
-                  height: 76,
-                  width: 300,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('password',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                          )),
-                      TextField(
-                        style: const TextStyle(fontSize: 12),
-                        controller: textFieldController,
-                        enableInteractiveSelection: false,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 212, 226, 169),
-                                  width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 162, 210, 24),
-                                  width: 2)),
+                        // password form field
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.03,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.03,
-                ),
-
-                /// confirm password input textfield
-                ///
-                SizedBox(
-                  height: 76,
-                  width: 300,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text('Confirm password',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                          )),
-                      TextField(
-                        style: const TextStyle(fontSize: 12),
-                        enableInteractiveSelection: false,
-                        controller: textFieldController,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 212, 226, 169),
-                                  width: 2)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 162, 210, 24),
-                                  width: 2)),
+                        SizedBox(
+                          width: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Password',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                  )),
+                              CustomFormField(
+                                  controller: _passwordFieldController,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        !value.isValidPassword) {
+                                      return 'Please enter a valid password';
+                                    }
+                                    if (value.length <= 6) {
+                                      return 'password must be more than six';
+                                    }
+                                    return null; // Return null if validation
+                                  }),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+
+                        // confirm password form field
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.03,
+                        ),
+                        SizedBox(
+                          width: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Confirm password',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                  )),
+                              CustomFormField(
+                                  controller: _confirmFieldController,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value !=
+                                            _passwordFieldController.text
+                                                .trim()) {
+                                      return 'password does not match';
+                                    }
+                                    return null; // Return null if validation
+                                  }),
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
 
                 SizedBox(
                   height: MediaQuery.sizeOf(context).height * 0.03,
@@ -259,7 +263,16 @@ class _SignUpState extends State<SignUp> {
 
                 /// sign up button
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        authHandler.createAccount(
+                            _emailFieldController.text.trim(),
+                            _passwordFieldController.text.trim(),
+                            context);
+                      } else {
+                        return;
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                         fixedSize: const Size(266, 48),
                         backgroundColor: const Color.fromARGB(51, 83, 113, 140),
@@ -270,8 +283,8 @@ class _SignUpState extends State<SignUp> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ))
               ]),
-            );
-          });
-        }));
+            ),
+          );
+        });
   }
 }

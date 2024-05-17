@@ -1,10 +1,9 @@
-import 'dart:io';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hes_entertainment/widgets/text_field.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -17,7 +16,6 @@ class QrPage extends StatefulWidget {
 }
 
 final GlobalKey _qrkey = GlobalKey();
-//dynamic externalDir = 'c:/Users/ooreoluwa/Downloads';
 final ScreenshotController _screenshotController = ScreenshotController();
 bool dirExist = false;
 
@@ -103,7 +101,6 @@ class _QrPageState extends State<QrPage> {
 
   Future<void> _saveQrImage() async {
     try {
-      final Meek meek = Meek();
       RenderRepaintBoundary boundary =
           _qrkey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       var image = await boundary.toImage(pixelRatio: 3.0);
@@ -121,35 +118,17 @@ class _QrPageState extends State<QrPage> {
       final qrImage = await qrPicture.toImage(image.width, image.height);
       ByteData? bytedata =
           await qrImage.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = bytedata!.buffer.asUint8List();
+      Uint8List pngBytes =
+          bytedata!.buffer.asUint8List(); // image generated in Unit8List type
 
-      final Uint8List? pngByter = await _screenshotController.capture();
+      // download generated file on web
 
-      String filename = 'your';
+      String filename = 'genetated_event_qr.png';
 
-      meek.uploadFile(pngBytes, filename);
-
-      // final Directory externalDir =
-      //     await Directory('c:/Users/ooreoluwa/Downloads/qr')
-      //         .create(recursive: false);
-
-      // // check for duplicate file
-      // int i = 1;
-      // while (await File('${externalDir.path}/$filename.png').exists()) {
-      //   filename = 'your_event_code_$i';
-      //   i++;
-      // }
-
-      // // check if directory path exsist
-      // dirExist = await File('$externalDir').exists();
-      // // path create if path those not exsist
-      // if (!dirExist) {
-      //   await Directory('$externalDir').create(recursive: true);
-      //   dirExist = true;
-      // }
-
-      // final file = await File('$externalDir/gjkhg.png').create();
-      // await file.writeAsBytes(pngByter!);
+      final blob = html.Blob(<dynamic>[pngBytes], 'application/octet-stream');
+      html.AnchorElement(href: html.Url.createObjectUrlFromBlob(blob))
+        ..setAttribute('download', filename)
+        ..click();
 
       if (!mounted) return;
       const snackBar = SnackBar(
