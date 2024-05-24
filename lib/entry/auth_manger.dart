@@ -27,6 +27,8 @@ class HandleAuth {
       // ignore: use_build_context_synchronously
       popPage(context);
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
       final snackBar = SnackBar(
         content: Text(
           '$e',
@@ -57,10 +59,13 @@ class HandleAuth {
       // ignore: use_build_context_synchronously
       popPage(context);
     } on FirebaseAuthException catch (e) {
-      final snackBar = SnackBar(
+      debugPrint(e.toString());
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+      const snackBar = SnackBar(
         content: Text(
-          '$e',
-          style: const TextStyle(
+          'Invalid mail or password',
+          style: TextStyle(
               color: Colors.white,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
@@ -81,6 +86,7 @@ class HandleAuth {
         .doc(firebaseUser)
         .set({
       'email': email,
+      'paid': false,
     });
   }
 
@@ -90,31 +96,3 @@ class HandleAuth {
     }), (Route<dynamic> route) => false);
   }
 }
-
-//  Map<String, dynamic>? userData;
-
-//   Future<Map<String, dynamic>?> userDetails() async {
-//     final firebaseUser = FirebaseAuth.instance.currentUser!.uid;
-//     FirebaseFirestore.instance
-//         .collection('HES_USER')
-//         .doc(firebaseUser)
-//         .get()
-//         .then((userDoc) {
-//       userData = userDoc.data();
-//     });
-//     return userData;
-//   }
-
-
-// String _userName = '';
-// Future<void> _getUserName() async {
-//   FirebaseFirestore.instance
-//       .collection('Users')
-//       .doc(FirebaseAuth.instance.currentUser!.uid)
-//       .get()
-//       .then((value) {
-//     setState(() {
-//       _userName = value.data['UserName'].toString();
-//     });
-//   });
-// }

@@ -1,47 +1,38 @@
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:hes_entertainment/dashbaord/check_up.dart';
 import 'package:hes_entertainment/dashbaord/controllers.dart';
 import 'package:hes_entertainment/dashbaord/upload.dart';
-
-import 'package:hes_entertainment/services/paystack_interop.dart';
-
 import 'package:hes_entertainment/widgets/form_field.dart';
 
-class CheckUp extends StatefulWidget {
+import '../services/paystack_interop.dart';
+
+class CheckUp1 extends StatefulWidget {
   final double value;
   final double price;
   final String mail;
 
-  const CheckUp(
+  const CheckUp1(
       {super.key,
       required this.value,
       required this.price,
       required this.mail});
 
   @override
-  State<CheckUp> createState() => _CheckUpState();
+  State<CheckUp1> createState() => _CheckUp1State();
 }
 
 late List<AllControl> allControl;
 late List<Uint8List?> imageFiles;
 late List<String> nameOfImages;
-List<String> storageName = [
-  'first',
-];
-
-// gemerate referense number
-String generateRef() {
-  final randomCode = Random().nextInt(3234234);
-  return 'ref-$randomCode';
-}
+List<String> storageName = ['first', 'second'];
 
 bool visi = false;
 bool uploading = false;
 
-class _CheckUpState extends State<CheckUp> {
+class _CheckUp1State extends State<CheckUp1> {
   @override
   void initState() {
     allControl = <AllControl>[
@@ -51,11 +42,21 @@ class _CheckUpState extends State<CheckUp> {
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
+      AllControl(
+        numb: 2.0,
+        visible: (widget.value == 2) ? visi : false,
+        controller: TextEditingController(),
+        formKey: GlobalKey<FormState>(),
+      ),
     ];
     imageFiles = [
       null,
+      null,
     ];
-    nameOfImages = [''];
+    nameOfImages = [
+      '',
+      '',
+    ];
 
     super.initState();
   }
@@ -197,8 +198,9 @@ class _CheckUpState extends State<CheckUp> {
                                                         allControl[index]
                                                             .numb &&
                                                     visi == true &&
-                                                    imageFiles.any((element) =>
-                                                        element != null))
+                                                    imageFiles.every(
+                                                        (element) =>
+                                                            element != null))
                                                 ? 260
                                                 : 210,
                                             decoration: BoxDecoration(
@@ -373,7 +375,7 @@ class _CheckUpState extends State<CheckUp> {
                                                                   allControl[
                                                                           index]
                                                                       .numb &&
-                                                              imageFiles.any(
+                                                              imageFiles.every(
                                                                   (element) =>
                                                                       element !=
                                                                       null))
@@ -388,6 +390,8 @@ class _CheckUpState extends State<CheckUp> {
                                                           onPressed: () {
                                                             paystackPop();
                                                           },
+
+                                                          ///
                                                           style: ElevatedButton.styleFrom(
                                                               fixedSize:
                                                                   const Size(
@@ -428,6 +432,10 @@ class _CheckUpState extends State<CheckUp> {
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.02,
                                 ),
+
+                                ////// payment button.................
+                                ///
+                                ///
                               ]),
                         ),
                       ),
@@ -460,7 +468,8 @@ class _CheckUpState extends State<CheckUp> {
                                     nameOfImages: nameOfImages,
                                     storageName: storageName,
                                     clientName: [
-                                      allControl[0].controller.text.trim()
+                                      allControl[0].controller.text.trim(),
+                                      allControl[1].controller.text.trim(),
                                     ],
                                   );
                                 }));
@@ -503,7 +512,7 @@ class _CheckUpState extends State<CheckUp> {
     return null;
   }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   final paystackPopUp = PaystackPopUp();
   final ref = generateRef();

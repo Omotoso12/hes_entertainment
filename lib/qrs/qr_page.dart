@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hes_entertainment/dashbaord/dashboard.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:screenshot/screenshot.dart';
 
 class QrPage extends StatefulWidget {
   final String data;
@@ -16,41 +16,41 @@ class QrPage extends StatefulWidget {
 }
 
 final GlobalKey _qrkey = GlobalKey();
-final ScreenshotController _screenshotController = ScreenshotController();
 bool dirExist = false;
+bool done = false;
 
 class _QrPageState extends State<QrPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 100,
-              ),
-              const Text(
-                'Your QR Code for the event',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16),
-              ),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: SafeArea(
+            child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: 100,
+                ),
+                const Text(
+                  'Your QR Code for the event',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                ),
 
-              const SizedBox(
-                height: 20,
-              ),
+                const SizedBox(
+                  height: 20,
+                ),
 
-              //// qr code generated image.... ///////////////
-              Center(
-                child: RepaintBoundary(
-                  key: _qrkey,
-                  child: Screenshot(
-                    controller: _screenshotController,
+                //// qr code generated image.... ///////////////
+                Center(
+                  child: RepaintBoundary(
+                    key: _qrkey,
                     child: QrImageView(
                       data: widget.data,
                       size: 259,
@@ -69,33 +69,59 @@ class _QrPageState extends State<QrPage> {
                     ),
                   ),
                 ),
-              ),
 
-              const SizedBox(
-                height: 20,
-              ),
-
-              /////  Download Qr generated image button....................
-              Center(
-                child: ElevatedButton(
-                  onPressed: _saveQrImage,
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(185, 48),
-                      backgroundColor: const Color.fromARGB(255, 83, 113, 140),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: const Text(
-                    'Download',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
-                  ),
+                const SizedBox(
+                  height: 20,
                 ),
-              )
-            ]),
-      )),
+
+                /////  Download Qr generated image button....................
+                !done
+                    ? Center(
+                        child: ElevatedButton(
+                          onPressed: _saveQrImage,
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(185, 48),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 83, 113, 140),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text(
+                            'Download',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14),
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const Dashboard();
+                            }));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(185, 48),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 83, 113, 140),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text(
+                            'Done',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14),
+                          ),
+                        ),
+                      )
+              ]),
+        )),
+      ),
     );
   }
 
@@ -131,6 +157,9 @@ class _QrPageState extends State<QrPage> {
         ..click();
 
       if (!mounted) return;
+      setState(() {
+        done = true;
+      });
       const snackBar = SnackBar(
         content: Text(
           'QR code saved to Gallery',

@@ -31,10 +31,19 @@
 
   <title>hes_entertainment</title>
   <link rel="manifest" href="manifest.json">
+  <script src="https://js.paystack.co/v1/inline.js" defer></script>
 
+  <script src = "/assets/assets/js/paystack_interop.js" defer> </script>
+
+  <script>
+
+  </script>
+
+  
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
+    var scriptLoaded = false;
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
@@ -59,9 +68,9 @@
   <script type="module">
 
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from "firebase/app";
-    import { getAnalytics } from "firebase/analytics";
-    import { getStorage, ref } from "firebase/storage";
+    import { initializeApp } from "firebase/app/";
+    import { getAnalytics } from "firebase/analytics/";
+    import { getStorage, ref } from "/firebase/storage/";
     import "firebase/compat/storage";
 
     // TODO: Add SDKs for Firebase products that you want to use
@@ -85,5 +94,7 @@
       const analytics = getAnalytics(app);
 
   </script>
+
+
 </body>
 </html>
