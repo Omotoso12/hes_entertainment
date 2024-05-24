@@ -197,21 +197,25 @@ class _DashboardState extends State<Dashboard> {
 
                                     /////////// card sectitan....
                                     /// detailing
-                                    const Text(
-                                      'Paid',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 20),
-                                    ),
                                     Container(
                                       height: 293,
                                       width: 156,
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
-                                              image: AssetImage('card.png'))),
+                                              image: AssetImage('paid.png'))),
                                     ),
-
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.02,
+                                    ),
+                                    const Text(
+                                      'Thank you for using this ticket payment \nplatform! Please follow our socials for more \nupcoming updates.',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
                                     SizedBox(
                                       height:
                                           MediaQuery.sizeOf(context).height *
