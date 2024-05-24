@@ -440,8 +440,7 @@ class _DashboardState extends State<Dashboard> {
                                                     BorderRadius.circular(10)),
                                             child: Center(
                                               child: Text(
-                                                '$_price',
-                                                //₦
+                                                'N$_price',
                                                 style: const TextStyle(
                                                     color: Color.fromARGB(
                                                       255,
