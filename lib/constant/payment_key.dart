@@ -1,1 +1,1 @@
-const String publicKey = 'pk_test_438ba827e5dfd6064ef11004332ef93a1ac78b69';
+const String publicKey = 'pk_live_2f2e38665b60a18f490131ce74aa41bc7c246b79';

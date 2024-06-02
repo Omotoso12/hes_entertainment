@@ -108,33 +108,12 @@ class _CheckUp4State extends State<CheckUp4> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                SizedBox(
-                                  width: 330,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        'HES 2.5 \nEntertainment:',
-                                        style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Container(
-                                          height: 42,
-                                          width: 42,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle),
-                                          child: const Center(
-                                              child: Icon(Icons.person_2)),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                const Text(
+                                  'HES 2.5 \nEntertainment:',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
                                 ),
 
                                 SizedBox(

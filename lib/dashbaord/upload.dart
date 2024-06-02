@@ -1,10 +1,12 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:beamer/beamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:hes_entertainment/qrs/gen_qr_page.dart';
+import 'package:flutter/rendering.dart';
 
 class UploadPage extends StatefulWidget {
   final List<Uint8List?> imageFiles;
@@ -24,6 +26,8 @@ class UploadPage extends StatefulWidget {
 
 double val = 1;
 bool uploading = false;
+final GlobalKey _newKey = GlobalKey();
+late final Uint8List? imgQr;
 
 class _UploadPageState extends State<UploadPage> {
   @override
@@ -51,79 +55,84 @@ class _UploadPageState extends State<UploadPage> {
                           width: 330,
                           child: Column(
                             children: [
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: (widget.imageFiles.length),
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: Container(
-                                        width: 330,
-                                        height: 150,
-                                        decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 7, 16, 26),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .height *
-                                                          0.02,
-                                                ),
-                                                ///////////////////////////////////////////////////////////////////////////
-                                                Center(
-                                                  child: Container(
-                                                    width: 57,
-                                                    height: 57,
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Image.memory(
-                                                        widget
-                                                            .imageFiles[index]!,
-                                                        fit: BoxFit.fill),
+                              RepaintBoundary(
+                                key: _newKey,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: (widget.imageFiles.length),
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Container(
+                                          width: 330,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                              color: const Color.fromARGB(
+                                                  255, 7, 16, 26),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .height *
+                                                        0.02,
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .height *
-                                                          0.02,
-                                                ),
+                                                  ///////////////////////////////////////////////////////////////////////////
+                                                  Center(
+                                                    child: Container(
+                                                      width: 57,
+                                                      height: 57,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Image.memory(
+                                                          widget.imageFiles[
+                                                              index]!,
+                                                          fit: BoxFit.fill),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .height *
+                                                        0.02,
+                                                  ),
 
-                                                SizedBox(
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .height *
-                                                          0.02,
-                                                ),
+                                                  SizedBox(
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .height *
+                                                        0.02,
+                                                  ),
 
-                                                ////////////name field....
-                                                Center(
-                                                  child: Text(
-                                                      widget.clientName[index],
-                                                      style: const TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontSize: 14,
-                                                      )),
-                                                ),
-                                              ]),
+                                                  ////////////name field....
+                                                  Center(
+                                                    child: Text(
+                                                        widget
+                                                            .clientName[index],
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 14,
+                                                        )),
+                                                  ),
+                                                ]),
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }),
+                                      );
+                                    }),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 10.0),
                                 child: ElevatedButton(
@@ -134,25 +143,23 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading single image...
                                     if (widget.imageFiles.length == 1) {
+                                      uploadQrData();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(() =>
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const GenerateQr();
-                                              })));
+                                          .whenComplete(
+                                        () => Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration'),
+                                      );
                                       upload1Data(widget.clientName[0]);
                                     }
                                     ////////////////////////
                                     ///uploading double image...
                                     if (widget.imageFiles.length == 2) {
+                                      uploadQrData();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(() =>
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const GenerateQr();
-                                              })));
+                                          .whenComplete(
+                                        () => Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration'),
+                                      );
                                       upload2Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -161,13 +168,12 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading triple image...
                                     if (widget.imageFiles.length == 3) {
+                                      uploadQrData();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(() =>
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const GenerateQr();
-                                              })));
+                                          .whenComplete(
+                                        () => Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration'),
+                                      );
                                       upload3Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -177,13 +183,12 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading four images...
                                     if (widget.imageFiles.length == 4) {
+                                      uploadQrData();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(() =>
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const GenerateQr();
-                                              })));
+                                          .whenComplete(
+                                        () => Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration'),
+                                      );
                                       upload4Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -195,13 +200,12 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading five images
                                     if (widget.imageFiles.length == 5) {
+                                      uploadQrData();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(() =>
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const GenerateQr();
-                                              })));
+                                          .whenComplete(
+                                        () => Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration'),
+                                      );
                                       upload5Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -276,6 +280,44 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
+  Future uploadQrData() async {
+    RenderRepaintBoundary boundary =
+        _newKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    var image = await boundary.toImage(pixelRatio: 3.0);
+
+    // creating qrimage background color........
+    final qrBackgroundColor = Paint()..color = Colors.white;
+    final qrImageRecorder = PictureRecorder();
+    final qrImageCanvas = Canvas(qrImageRecorder,
+        Rect.fromLTRB(0, 0, image.width.toDouble(), image.height.toDouble()));
+    qrImageCanvas.drawRect(
+        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+        qrBackgroundColor);
+    qrImageCanvas.drawImage(image, Offset.zero, Paint());
+    final qrPicture = qrImageRecorder.endRecording();
+    final qrImage = await qrPicture.toImage(image.width, image.height);
+    ByteData? bytedata = await qrImage.toByteData(format: ImageByteFormat.png);
+    Uint8List pngBytes = bytedata!.buffer.asUint8List();
+
+    String firebaseUser = FirebaseAuth.instance.currentUser!.uid;
+    Reference storageRef =
+        FirebaseStorage.instance.ref().child('$firebaseUser/qrImage');
+    await storageRef
+        .putBlob(pngBytes, SettableMetadata(contentType: 'png'))
+        .whenComplete(() async {
+      await storageRef.getDownloadURL().then((value) async {
+        await FirebaseFirestore.instance
+            .collection('HES_USER')
+            .doc(firebaseUser)
+            .set(
+                {'imageQr': value},
+                SetOptions(
+                  merge: true,
+                ));
+      });
+    });
+  }
+
 /////upoading data seperate functions
   Future upload1Data(
     String name,
@@ -285,7 +327,11 @@ class _UploadPageState extends State<UploadPage> {
         .collection('HES_USER')
         .doc(firebaseUser)
         .set(
-            {'name1': name, 'paid': true},
+            {
+          'name1': name,
+          'paid': true,
+          'client_val': 1,
+        },
             SetOptions(
               merge: true,
             ));
@@ -304,6 +350,7 @@ class _UploadPageState extends State<UploadPage> {
           'name1': name,
           'name2': name2,
           'paid': true,
+          'client_val': 2,
         },
             SetOptions(
               merge: true,
@@ -321,6 +368,7 @@ class _UploadPageState extends State<UploadPage> {
           'name2': name2,
           'name3': name3,
           'paid': true,
+          'client_val': 3,
         },
             SetOptions(
               merge: true,
@@ -340,6 +388,7 @@ class _UploadPageState extends State<UploadPage> {
           'name3': name3,
           'name4': name4,
           'paid': true,
+          'client_val': 4,
         },
             SetOptions(
               merge: true,
@@ -365,6 +414,7 @@ class _UploadPageState extends State<UploadPage> {
           'name4': name4,
           'name5': name5,
           'paid': true,
+          'client_val': 5,
         },
             SetOptions(
               merge: true,
@@ -372,6 +422,7 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   ///////upload image fuction, managing all instance of image upload...////////////
+  ///
 
   Future uploadImage(int newValue) async {
     int i = 1;

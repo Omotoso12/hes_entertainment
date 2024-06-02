@@ -1,5 +1,5 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:hes_entertainment/entry/sign_up.dart';
 import 'package:hes_entertainment/widgets/form_field.dart';
 import 'package:hes_entertainment/widgets/string_ext.dart';
 import 'package:hes_entertainment/entry/auth_manger.dart';
@@ -19,8 +19,6 @@ class _SignInState extends State<SignIn> {
   @override
   void dispose() {
     // textfield dispose control
-    _emailFieldController.dispose();
-    _passwordFieldController.dispose();
     super.dispose();
   }
 
@@ -40,10 +38,6 @@ class _SignInState extends State<SignIn> {
               padding:
                   EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.1),
               child: Column(
-                // Column is also a layout widget. It takes a list of children and
-                // arranges them vertically. By default, it sizes itself to fit its
-                // children horizontally, and tries to be as tall as its parent.
-
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const Text(
@@ -128,10 +122,9 @@ class _SignInState extends State<SignIn> {
 
                   /////////////////////////////////////////////////////////////////////////
                   TextButton(
-                      onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const SignUp();
-                          })),
+                      onPressed: () {
+                        Beamer.of(context).beamToNamed('/signup');
+                      },
                       child: const Text(
                         'Sign up here',
                         style: TextStyle(
@@ -248,7 +241,7 @@ class _SignInState extends State<SignIn> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Text(
-                    'Sign Up',
+                    'Sign In',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ))
             ]),

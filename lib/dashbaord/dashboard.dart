@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,10 @@ class _DashboardState extends State<Dashboard> {
                                                 fontSize: 14),
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Beamer.of(context).beamToNamed(
+                                                  '/dashboard/profile');
+                                            },
                                             child: Container(
                                               height: 42,
                                               width: 42,
@@ -249,7 +253,10 @@ class _DashboardState extends State<Dashboard> {
                                                 fontSize: 14),
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Beamer.of(context).beamToNamed(
+                                                  '/dashboard/profile');
+                                            },
                                             child: Container(
                                               height: 42,
                                               width: 42,

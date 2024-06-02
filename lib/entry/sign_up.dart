@@ -1,5 +1,5 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:hes_entertainment/entry/sign_in.dart';
 import 'package:hes_entertainment/widgets/form_field.dart';
 import 'package:hes_entertainment/widgets/string_ext.dart';
 import 'package:hes_entertainment/entry/auth_manger.dart';
@@ -20,9 +20,6 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     // textfield dispose control
-    _emailFieldController.dispose();
-    _passwordFieldController.dispose();
-    _confirmFieldController.dispose();
     super.dispose();
   }
 
@@ -127,10 +124,9 @@ class _SignUpState extends State<SignUp> {
 
                   /////////////////////////////////////////////////////////////////////////
                   TextButton(
-                      onPressed: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const SignIn();
-                          })),
+                      onPressed: () {
+                        Beamer.of(context).beamToNamed('/login');
+                      },
                       child: const Text(
                         'Sign in here',
                         style: TextStyle(

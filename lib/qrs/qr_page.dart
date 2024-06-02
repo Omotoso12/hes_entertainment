@@ -2,9 +2,9 @@
 import 'dart:html' as html;
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hes_entertainment/dashbaord/dashboard.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrPage extends StatefulWidget {
@@ -98,10 +98,7 @@ class _QrPageState extends State<QrPage> {
                     : Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const Dashboard();
-                            }));
+                            Beamer.of(context).beamToNamed('/dashboard');
                           },
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(185, 48),

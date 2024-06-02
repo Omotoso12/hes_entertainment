@@ -14,5 +14,5 @@ void main() async {
       measurementId: "G-VXHS4BVGEF",
     ),
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:beamer/beamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hes_entertainment/dashbaord/dashboard.dart';
 
 class HandleAuth {
   Future createAccount(
@@ -91,8 +91,6 @@ class HandleAuth {
   }
 
   void popPage(BuildContext context) {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-      return const Dashboard();
-    }), (Route<dynamic> route) => false);
+    Beamer.of(context).beamToNamed('/dashboard');
   }
 }
