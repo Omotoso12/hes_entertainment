@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "site": "hesentertainment",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "us-central1"
+    }
+  }
+}

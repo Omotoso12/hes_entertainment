@@ -206,7 +206,7 @@ class _SignUpState extends State<SignUp> {
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
                                   )),
-                              CustomFormField(
+                              CustomPassFormField(
                                   controller: _passwordFieldController,
                                   validator: (value) {
                                     if (value == null ||
@@ -216,7 +216,8 @@ class _SignUpState extends State<SignUp> {
                                     if (value.length <= 6) {
                                       return 'password must be more than six';
                                     }
-                                    return null; // Return null if validation
+                                    return null;
+                                    // Return null if validation
                                   }),
                             ],
                           ),
@@ -236,7 +237,7 @@ class _SignUpState extends State<SignUp> {
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
                                   )),
-                              CustomFormField(
+                              CustomPassFormField(
                                   controller: _confirmFieldController,
                                   validator: (value) {
                                     if (value == null ||

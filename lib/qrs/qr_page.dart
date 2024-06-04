@@ -27,20 +27,19 @@ class _QrPageState extends State<QrPage> {
       child: Scaffold(
         body: SafeArea(
             child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(
                   height: 100,
                 ),
-                const Text(
-                  'Your QR Code for the event',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16),
+
+                Container(
+                  height: 60,
+                  width: 148,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill, image: AssetImage('grad1.png'))),
                 ),
 
                 const SizedBox(
@@ -51,21 +50,37 @@ class _QrPageState extends State<QrPage> {
                 Center(
                   child: RepaintBoundary(
                     key: _qrkey,
-                    child: QrImageView(
-                      data: widget.data,
-                      size: 259,
-                      version: QrVersions.auto,
-                      errorStateBuilder: ((context, error) {
-                        return const Center(
-                          child: Text(
-                            'Something went wrong!!!',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
-                          ),
-                        );
-                      }),
+                    child: Container(
+                      width: 250,
+                      height: 250,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: const [
+                            BoxShadow(spreadRadius: 1.0, blurRadius: 6.0)
+                          ],
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                              color: const Color.fromARGB(255, 83, 113, 140),
+                              width: 6)),
+                      child: Center(
+                        child: QrImageView(
+                          embeddedImage: const AssetImage('logo.png'),
+                          data: widget.data,
+                          size: 200,
+                          version: QrVersions.auto,
+                          errorStateBuilder: ((context, error) {
+                            return const Center(
+                              child: Text(
+                                'Something went wrong!!!',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -115,7 +130,30 @@ class _QrPageState extends State<QrPage> {
                                 fontSize: 14),
                           ),
                         ),
-                      )
+                      ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 15,
+                  width: 90,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill, image: AssetImage('grad2.png'))),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                const Text(
+                  '1. This QR code will be scanned at the \nvenue before you are gained access\nto the event. \n\n2. If in case you lose your QR code, you \ncan always come back to download\nit again at your profile menu.',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14),
+                ),
               ]),
         )),
       ),

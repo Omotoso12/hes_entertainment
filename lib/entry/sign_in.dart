@@ -204,17 +204,18 @@ class _SignInState extends State<SignIn> {
                                   fontFamily: 'Poppins',
                                   fontSize: 16,
                                 )),
-                            CustomFormField(
-                                controller: _passwordFieldController,
-                                validator: (value) {
-                                  if (value == null || !value.isValidPassword) {
-                                    return 'Please enter a valid password';
-                                  }
-                                  if (value.characters.length <= 6) {
-                                    return 'password must be more than six';
-                                  }
-                                  return null; // Return null if validation
-                                }),
+                            CustomPassFormField(
+                              controller: _passwordFieldController,
+                              validator: (value) {
+                                if (value == null || !value.isValidPassword) {
+                                  return 'Please enter a valid password';
+                                }
+                                if (value.characters.length <= 6) {
+                                  return 'password must be more than six';
+                                }
+                                return null; // Return null if validation
+                              },
+                            ),
                           ],
                         ),
                       ),

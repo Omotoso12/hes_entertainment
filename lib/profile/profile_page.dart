@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/profile/one_profile.dart';
 
-import 'two_profile.dart';
+import 'more_profile.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -159,7 +159,7 @@ class _UserProfileState extends State<UserProfile> {
                                               .data()!['client_val']
                                               .toInt() ==
                                           2)
-                                        TwoUser(name: [
+                                        MoreUser(name: [
                                           snapshot.data!
                                               .data()!['name1']
                                               .toString(),
@@ -181,7 +181,7 @@ class _UserProfileState extends State<UserProfile> {
                                               .data()!['client_val']
                                               .toInt() ==
                                           3)
-                                        TwoUser(name: [
+                                        MoreUser(name: [
                                           snapshot.data!
                                               .data()!['name1']
                                               .toString(),
@@ -209,7 +209,7 @@ class _UserProfileState extends State<UserProfile> {
                                               .data()!['client_val']
                                               .toInt() ==
                                           4)
-                                        TwoUser(name: [
+                                        MoreUser(name: [
                                           snapshot.data!
                                               .data()!['name1']
                                               .toString(),
@@ -243,7 +243,7 @@ class _UserProfileState extends State<UserProfile> {
                                               .data()!['client_val']
                                               .toInt() ==
                                           5)
-                                        TwoUser(name: [
+                                        MoreUser(name: [
                                           snapshot.data!
                                               .data()!['name1']
                                               .toString(),
@@ -276,6 +276,45 @@ class _UserProfileState extends State<UserProfile> {
                                               .data()!['fifth']
                                               .toString(),
                                         ]),
+
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      const Text(
+                                        'Lost your spycity tickets?',
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Beamer.of(context).beamToNamed(
+                                                '/dashboard/profile/codegeneration');
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              fixedSize: const Size(266, 48),
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      51, 83, 113, 140),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10))),
+                                          child: Text(
+                                            'Download again',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          )),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
                                     ]),
                               ),
                             ),
@@ -396,7 +435,7 @@ class _UserProfileState extends State<UserProfile> {
                                                       BorderRadius.circular(
                                                           10))),
                                           child: Text(
-                                            'Pay here',
+                                            'Purchase',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium,

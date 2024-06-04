@@ -158,8 +158,8 @@ class _GenerateQrState extends State<GenerateQr> {
                                       fontSize: 20),
                                 ),
                                 Container(
-                                  height: 293,
-                                  width: 156,
+                                  height: 110,
+                                  width: 310,
                                   decoration: const BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage('paid.png'))),

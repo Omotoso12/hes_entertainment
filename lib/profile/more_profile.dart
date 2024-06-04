@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ThreeUser extends StatelessWidget {
+class MoreUser extends StatelessWidget {
   final List<String> name;
   final List<String> url;
-  const ThreeUser({super.key, required this.name, required this.url});
+  const MoreUser({super.key, required this.name, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 330,
-      height: 180 * name.length.toDouble(),
+      height: 160 * name.length.toDouble(),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: name.length,

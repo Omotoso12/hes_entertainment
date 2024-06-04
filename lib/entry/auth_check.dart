@@ -165,15 +165,46 @@ class _AuthCheckerState extends State<AuthChecker> {
                             /////////// card sectitan....
                             /// detailing
                             const Text(
-                              'Select one event',
+                              'Spycity Night Life Party',
                               style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text(
+                                'August 24th by 4:00PM - 4:00AM',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 320,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '₦',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    '4000',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
                             Container(
-                              height: 293,
-                              width: 156,
+                              height: 110,
+                              width: 310,
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage('card.png'))),
@@ -220,7 +251,7 @@ class _AuthCheckerState extends State<AuthChecker> {
                                           onChanged: (value) {
                                             setState(() {
                                               _result = value!.toDouble();
-                                              _price = value.toDouble() * 3000;
+                                              _price = value.toDouble() * 4000;
                                               _visible = true;
                                             });
                                           },

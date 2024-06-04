@@ -8,6 +8,7 @@ import 'package:hes_entertainment/dashbaord/check_up2.dart';
 import 'package:hes_entertainment/dashbaord/check_up3.dart';
 import 'package:hes_entertainment/dashbaord/check_up4.dart';
 import 'package:hes_entertainment/entry/auth_manger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TimeValue {
   final double _key;
@@ -39,10 +40,25 @@ class _DashboardState extends State<Dashboard> {
   final firebaseUser = FirebaseAuth.instance.currentUser!.email;
   final firebaseUid = FirebaseAuth.instance.currentUser!.uid;
 
+  final Uri InstagramUrl =
+      Uri.parse('https://www.instagram.com/hes2.5entmt?igsh=bmpmbHR1MmxtODU1');
+
+  static const String whatsapp = "+2349035258990";
+  final Uri whatsAppUrl =
+      Uri.parse("https://wa.me/$whatsapp?text=${Uri.parse("")}");
+
+  final Uri gmailUrl = Uri(
+    scheme: 'mailto',
+    path: 'hes2.5entertainment@gmail.com',
+    query: 'subject=Explain your needs&body=${Uri.parse("")}',
+  );
+
   @override
   Widget build(BuildContext context) {
     final List<String> name = firebaseUser.toString().split('@');
     final String email = firebaseUser.toString();
+    final url = gmailUrl.toString();
+    final urlPath = Uri.parse(url);
     return Scaffold(
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -202,10 +218,11 @@ class _DashboardState extends State<Dashboard> {
                                     /////////// card sectitan....
                                     /// detailing
                                     Container(
-                                      height: 293,
-                                      width: 156,
+                                      height: 110,
+                                      width: 310,
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
+                                              fit: BoxFit.fill,
                                               image: AssetImage('paid.png'))),
                                     ),
                                     SizedBox(
@@ -223,8 +240,65 @@ class _DashboardState extends State<Dashboard> {
                                     SizedBox(
                                       height:
                                           MediaQuery.sizeOf(context).height *
-                                              0.02,
+                                              0.1,
                                     ),
+
+                                    const SizedBox(
+                                      width: 320,
+                                      height: 24,
+                                      child: Center(
+                                        child: Text(
+                                          'Contact us for support',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+
+                                    SizedBox(
+                                      width: 320,
+                                      height: 24,
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: 112,
+                                          height: 24,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                  onTap: () => _launchWhatsapp(
+                                                      whatsAppUrl),
+                                                  child: Image.asset(
+                                                      height: 24,
+                                                      width: 24,
+                                                      'whatsapp.png')),
+                                              GestureDetector(
+                                                  onTap: () => _launchInsta(
+                                                      InstagramUrl),
+                                                  child: Image.asset(
+                                                      height: 24,
+                                                      width: 24,
+                                                      'instagram.png')),
+                                              GestureDetector(
+                                                  onTap: () =>
+                                                      _launchGmail(urlPath),
+                                                  child: Image.asset(
+                                                      height: 24,
+                                                      width: 24,
+                                                      'gmail.png')),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -360,15 +434,47 @@ class _DashboardState extends State<Dashboard> {
                                     /////////// card sectitan....
                                     /// detailing
                                     const Text(
-                                      'Select one event',
+                                      'Spycity Night Life Party',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 20),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(
+                                        'August 24th by 4:00PM - 4:00AM',
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 320,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '₦',
+                                            style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            '4000',
+                                            style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     Container(
-                                      height: 293,
-                                      width: 156,
+                                      height: 110,
+                                      width: 310,
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
                                               image: AssetImage('card.png'))),
@@ -424,7 +530,7 @@ class _DashboardState extends State<Dashboard> {
                                                           value!.toDouble();
                                                       _price =
                                                           value.toDouble() *
-                                                              3000;
+                                                              4000;
                                                       _visible = true;
                                                     });
                                                   },
@@ -559,5 +665,23 @@ class _DashboardState extends State<Dashboard> {
                   );
           }),
     );
+  }
+
+  Future<void> _launchWhatsapp(Uri url) async {
+    if (!await launchUrl(url, webOnlyWindowName: "_self")) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchGmail(Uri url) async {
+    if (!await launchUrl(url, webOnlyWindowName: "_self")) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchInsta(Uri url) async {
+    if (!await launchUrl(url, webOnlyWindowName: "_self")) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
