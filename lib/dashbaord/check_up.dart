@@ -79,7 +79,7 @@ class _CheckUpState extends State<CheckUp> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: SingleChildScrollView(
                       child: Center(
                         child: Padding(
@@ -231,7 +231,7 @@ class _CheckUpState extends State<CheckUp> {
                                                                         .isEmpty
                                                                     ? Image
                                                                         .asset(
-                                                                        'profile.png',
+                                                                        'assets/profile.png',
                                                                         fit: BoxFit
                                                                             .fill,
                                                                       )
@@ -303,12 +303,7 @@ class _CheckUpState extends State<CheckUp> {
                                                       ],
                                                     ),
 
-                                                    SizedBox(
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .height *
-                                                          0.02,
-                                                    ),
+                                                    const SizedBox(width: 10),
 
                                                     ////////////input name field....
                                                     const Text('Name',
@@ -326,8 +321,8 @@ class _CheckUpState extends State<CheckUp> {
                                                         onChanged: (text) {
                                                           // Custom logic when text changes.
                                                           if (text.characters
-                                                                      .length >
-                                                                  8 &&
+                                                                      .length >=
+                                                                  3 &&
                                                               (widget.value ==
                                                                   allControl[
                                                                           index]
@@ -339,7 +334,7 @@ class _CheckUpState extends State<CheckUp> {
 
                                                           if (text.characters
                                                                   .length <
-                                                              8) {
+                                                              3) {
                                                             setState(() {
                                                               visi = false;
                                                             });
@@ -418,7 +413,7 @@ class _CheckUpState extends State<CheckUp> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: Center(
                       child: Container(
                         height: 200,

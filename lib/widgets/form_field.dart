@@ -67,6 +67,7 @@ class CustomPassFormField extends StatelessWidget {
       style: const TextStyle(fontSize: 12),
       controller: controller,
       decoration: InputDecoration(
+        hintText: '#PASSword12',
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(

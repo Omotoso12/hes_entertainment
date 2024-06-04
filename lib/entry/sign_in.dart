@@ -30,7 +30,7 @@ class _SignInState extends State<SignIn> {
         height: MediaQuery.sizeOf(context).height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage('Background.png'))),
+                fit: BoxFit.fill, image: AssetImage('assets/Background.png'))),
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Center(
@@ -208,7 +208,7 @@ class _SignInState extends State<SignIn> {
                               controller: _passwordFieldController,
                               validator: (value) {
                                 if (value == null || !value.isValidPassword) {
-                                  return 'Please enter a valid password';
+                                  return 'Please enter a stronger password';
                                 }
                                 if (value.characters.length <= 6) {
                                   return 'password must be more than six';
@@ -221,7 +221,23 @@ class _SignInState extends State<SignIn> {
                       ),
                     ],
                   )),
-
+              SizedBox(
+                width: 300,
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: GestureDetector(
+                    onTap: () =>
+                        Beamer.of(context).beamToNamed('/forgetpassword'),
+                    child: const Text(
+                      'forget password?',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.03,
               ),

@@ -45,7 +45,7 @@ class _UploadPageState extends State<UploadPage> {
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('Background.png'))),
+                              image: AssetImage('assets/Background.png'))),
                       child: SingleChildScrollView(
                           child: Center(
                               child: Padding(
@@ -67,8 +67,8 @@ class _UploadPageState extends State<UploadPage> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0),
                                         child: Container(
-                                          width: 330,
-                                          height: 150,
+                                          width: 310,
+                                          height: 200,
                                           decoration: BoxDecoration(
                                               color: const Color.fromARGB(
                                                   255, 7, 16, 26),
@@ -80,22 +80,18 @@ class _UploadPageState extends State<UploadPage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  SizedBox(
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.02,
-                                                  ),
+                                                  const SizedBox(width: 10),
                                                   ///////////////////////////////////////////////////////////////////////////
                                                   Center(
                                                     child: Container(
-                                                      width: 57,
-                                                      height: 57,
+                                                      width: 150,
+                                                      height: 120,
                                                       clipBehavior:
                                                           Clip.antiAlias,
                                                       decoration:
                                                           const BoxDecoration(
-                                                        shape: BoxShape.circle,
+                                                        shape:
+                                                            BoxShape.rectangle,
                                                       ),
                                                       child: Image.memory(
                                                           widget.imageFiles[
@@ -103,19 +99,7 @@ class _UploadPageState extends State<UploadPage> {
                                                           fit: BoxFit.fill),
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.02,
-                                                  ),
-
-                                                  SizedBox(
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.02,
-                                                  ),
+                                                  const SizedBox(width: 10),
 
                                                   ////////////name field....
                                                   Center(
@@ -243,7 +227,7 @@ class _UploadPageState extends State<UploadPage> {
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('Background.png'))),
+                              image: AssetImage('assets/Background.png'))),
                       child: Center(
                         child: Container(
                           height: 150,

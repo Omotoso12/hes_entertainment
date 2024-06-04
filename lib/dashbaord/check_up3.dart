@@ -97,7 +97,7 @@ class _CheckUp3State extends State<CheckUp3> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: SingleChildScrollView(
                       child: Center(
                         child: Padding(
@@ -250,7 +250,7 @@ class _CheckUp3State extends State<CheckUp3> {
                                                                         .isEmpty
                                                                     ? Image
                                                                         .asset(
-                                                                        'profile.png',
+                                                                        'assets/profile.png',
                                                                         fit: BoxFit
                                                                             .fill,
                                                                       )
@@ -322,12 +322,7 @@ class _CheckUp3State extends State<CheckUp3> {
                                                       ],
                                                     ),
 
-                                                    SizedBox(
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .height *
-                                                          0.02,
-                                                    ),
+                                                    const SizedBox(width: 10),
 
                                                     ////////////input name field....
                                                     const Text('Name',
@@ -345,8 +340,8 @@ class _CheckUp3State extends State<CheckUp3> {
                                                         onChanged: (text) {
                                                           // Custom logic when text changes.
                                                           if (text.characters
-                                                                      .length >
-                                                                  8 &&
+                                                                      .length >=
+                                                                  3 &&
                                                               (widget.value ==
                                                                   allControl[
                                                                           index]
@@ -358,7 +353,7 @@ class _CheckUp3State extends State<CheckUp3> {
 
                                                           if (text.characters
                                                                   .length <
-                                                              8) {
+                                                              3) {
                                                             setState(() {
                                                               visi = false;
                                                             });
@@ -441,7 +436,7 @@ class _CheckUp3State extends State<CheckUp3> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: Center(
                       child: Container(
                         height: 200,

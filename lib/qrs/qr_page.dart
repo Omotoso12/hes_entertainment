@@ -39,7 +39,8 @@ class _QrPageState extends State<QrPage> {
                   width: 148,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          fit: BoxFit.fill, image: AssetImage('grad1.png'))),
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/grad1.png'))),
                 ),
 
                 const SizedBox(
@@ -64,7 +65,7 @@ class _QrPageState extends State<QrPage> {
                               width: 6)),
                       child: Center(
                         child: QrImageView(
-                          embeddedImage: const AssetImage('logo.png'),
+                          embeddedImage: const AssetImage('assets/logo.png'),
                           data: widget.data,
                           size: 200,
                           version: QrVersions.auto,
@@ -140,7 +141,8 @@ class _QrPageState extends State<QrPage> {
                   width: 90,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          fit: BoxFit.fill, image: AssetImage('grad2.png'))),
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/grad2.png'))),
                 ),
                 const SizedBox(
                   height: 10,

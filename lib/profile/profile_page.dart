@@ -35,7 +35,7 @@ class _UserProfileState extends State<UserProfile> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: snapshot.data!.data()!['paid']
                         ? SingleChildScrollView(
                             child: Center(
@@ -450,7 +450,7 @@ class _UserProfileState extends State<UserProfile> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: const Center(
                       child: CircularProgressIndicator(
                         color: Colors.white,

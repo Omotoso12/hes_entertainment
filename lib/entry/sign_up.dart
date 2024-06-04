@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
         height: MediaQuery.sizeOf(context).height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage('Background.png'))),
+                fit: BoxFit.fill, image: AssetImage('assets/Background.png'))),
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Center(

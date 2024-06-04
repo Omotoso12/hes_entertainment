@@ -11,6 +11,7 @@ class MoreUser extends StatelessWidget {
       width: 330,
       height: 160 * name.length.toDouble(),
       child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: name.length,
         itemBuilder: (BuildContext context, int index) {

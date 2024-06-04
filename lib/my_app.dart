@@ -2,6 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/entry/auth_check.dart';
+import 'package:hes_entertainment/entry/forget.dart';
 import 'package:hes_entertainment/entry/sign_in.dart';
 import 'package:hes_entertainment/entry/sign_up.dart';
 import 'package:hes_entertainment/profile/profile_page.dart';
@@ -13,11 +14,26 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of the application.
   final routerDelegate = BeamerDelegate(
+      notFoundPage: const BeamPage(
+          child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Center(
+              child: SizedBox(
+                  child: Text(
+                'Not Found',
+              )),
+            ),
+          ),
+        ),
+      )),
       initialPath: '/dashboard',
       transitionDelegate: const NoAnimationTransitionDelegate(),
       locationBuilder: RoutesLocationBuilder(routes: {
         '/dashboard': (context, state, data) => const AuthChecker(),
         '/login': (context, state, data) => const SignIn(),
+        '/forgetpassword': (context, state, data) => ForgetPasswordPage(),
         '/signup': (context, state, data) => const SignUp(),
         '/dashboard/profile': (context, state, data) => const UserProfile(),
         '/dashboard/profile/codegeneration': (context, state, data) =>

@@ -77,6 +77,33 @@ class HandleAuth {
     }
   }
 
+  Future forgotPassword(String email, BuildContext context) async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: email)
+          .then((value) {
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+        const snackBar = SnackBar(
+          content: Text(
+            'email sent, check on mail',
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                fontSize: 14),
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      });
+    } on FirebaseAuthException catch (err) {
+      throw Exception(err.message.toString());
+    } catch (err) {
+      throw Exception(err.toString());
+    }
+  }
+
   Future addUserDetails(
     String email,
   ) async {

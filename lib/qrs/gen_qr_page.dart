@@ -32,7 +32,7 @@ class _GenerateQrState extends State<GenerateQr> {
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('Background.png'))),
+                              image: AssetImage('assets/Background.png'))),
                       child: const Center(
                         child: CircularProgressIndicator(
                           color: Colors.white,
@@ -45,7 +45,7 @@ class _GenerateQrState extends State<GenerateQr> {
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('Background.png'))),
+                              image: AssetImage('assets/Background.png'))),
                       child: SingleChildScrollView(
                         //physics: const NeverScrollableScrollPhysics(),
                         child: Center(
@@ -162,7 +162,8 @@ class _GenerateQrState extends State<GenerateQr> {
                                   width: 310,
                                   decoration: const BoxDecoration(
                                       image: DecorationImage(
-                                          image: AssetImage('paid.png'))),
+                                          image:
+                                              AssetImage('assets/paid.png'))),
                                 ),
 
                                 SizedBox(

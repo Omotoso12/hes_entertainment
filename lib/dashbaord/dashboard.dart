@@ -73,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: const Center(
                       child: CircularProgressIndicator(
                         color: Colors.white,
@@ -86,7 +86,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('Background.png'))),
+                            image: AssetImage('assets/Background.png'))),
                     child: snapshot.data!.data()!['paid']
                         ? SingleChildScrollView(
                             child: Center(
@@ -223,7 +223,8 @@ class _DashboardState extends State<Dashboard> {
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
                                               fit: BoxFit.fill,
-                                              image: AssetImage('paid.png'))),
+                                              image: AssetImage(
+                                                  'assets/paid.png'))),
                                     ),
                                     SizedBox(
                                       height:
@@ -279,21 +280,21 @@ class _DashboardState extends State<Dashboard> {
                                                   child: Image.asset(
                                                       height: 24,
                                                       width: 24,
-                                                      'whatsapp.png')),
+                                                      'assets/whatsapp.png')),
                                               GestureDetector(
                                                   onTap: () => _launchInsta(
                                                       InstagramUrl),
                                                   child: Image.asset(
                                                       height: 24,
                                                       width: 24,
-                                                      'instagram.png')),
+                                                      'assets/instagram.png')),
                                               GestureDetector(
                                                   onTap: () =>
                                                       _launchGmail(urlPath),
                                                   child: Image.asset(
                                                       height: 24,
                                                       width: 24,
-                                                      'gmail.png')),
+                                                      'assets/gmail.png')),
                                             ],
                                           ),
                                         ),
@@ -314,7 +315,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(
-                                      width: 330,
+                                      width: 310,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -452,7 +453,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 320,
+                                      width: 310,
                                       child: Row(
                                         children: [
                                           Text(
@@ -477,7 +478,8 @@ class _DashboardState extends State<Dashboard> {
                                       width: 310,
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
-                                              image: AssetImage('card.png'))),
+                                              image: AssetImage(
+                                                  'assets/card.png'))),
                                     ),
 
                                     SizedBox(
@@ -500,8 +502,10 @@ class _DashboardState extends State<Dashboard> {
 
                                     SizedBox(
                                       width: 180,
-                                      height: 240,
+                                      height: 280,
                                       child: ListView(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         children: _radioOptions
                                             .map((buyerValue) =>
                                                 RadioListTile<double>(
@@ -657,6 +661,63 @@ class _DashboardState extends State<Dashboard> {
                                           MediaQuery.sizeOf(context).height *
                                               0.02,
                                     ),
+
+                                    const SizedBox(
+                                      width: 320,
+                                      height: 24,
+                                      child: Center(
+                                        child: Text(
+                                          'Contact us for support',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+
+                                    SizedBox(
+                                        width: 320,
+                                        height: 24,
+                                        child: Center(
+                                            child: SizedBox(
+                                                width: 112,
+                                                height: 24,
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: <Widget>[
+                                                      GestureDetector(
+                                                          onTap: () =>
+                                                              _launchWhatsapp(
+                                                                  whatsAppUrl),
+                                                          child: Image.asset(
+                                                              height: 24,
+                                                              width: 24,
+                                                              'assets/whatsapp.png')),
+                                                      GestureDetector(
+                                                          onTap: () =>
+                                                              _launchInsta(
+                                                                  InstagramUrl),
+                                                          child: Image.asset(
+                                                              height: 24,
+                                                              width: 24,
+                                                              'assets/instagram.png')),
+                                                      GestureDetector(
+                                                          onTap: () =>
+                                                              _launchGmail(
+                                                                  urlPath),
+                                                          child: Image.asset(
+                                                              height: 24,
+                                                              width: 24,
+                                                              'assets/gmail.png')),
+                                                    ])))),
                                   ],
                                 ),
                               ),

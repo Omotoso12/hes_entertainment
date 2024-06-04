@@ -45,7 +45,7 @@ class _AuthCheckerState extends State<AuthChecker> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage('Background.png'))),
+                          image: AssetImage('assets/Background.png'))),
                   child: SingleChildScrollView(
                     child: Center(
                       child: Padding(
@@ -55,7 +55,7 @@ class _AuthCheckerState extends State<AuthChecker> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             SizedBox(
-                              width: 330,
+                              width: 310,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -182,7 +182,7 @@ class _AuthCheckerState extends State<AuthChecker> {
                               ),
                             ),
                             const SizedBox(
-                              width: 320,
+                              width: 310,
                               child: Row(
                                 children: [
                                   Text(
@@ -207,7 +207,7 @@ class _AuthCheckerState extends State<AuthChecker> {
                               width: 310,
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage('card.png'))),
+                                      image: AssetImage('assets/card.png'))),
                             ),
 
                             SizedBox(
@@ -228,7 +228,7 @@ class _AuthCheckerState extends State<AuthChecker> {
 
                             SizedBox(
                               width: 180,
-                              height: 240,
+                              height: 280,
                               child: ListView(
                                 children: _radioOptions
                                     .map((buyerValue) => RadioListTile<double>(
