@@ -1,12 +1,11 @@
 import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:beamer/beamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:hes_entertainment/services/paystack_interop.dart';
+import 'package:hes_entertainment/services/screen_extension.dart';
 
 class UploadPage extends StatefulWidget {
   final List<Uint8List?> imageFiles;
@@ -49,69 +48,47 @@ class _UploadPageState extends State<UploadPage> {
                       child: SingleChildScrollView(
                           child: Center(
                               child: Padding(
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.sizeOf(context).height * 0.1),
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                        ),
                         child: SizedBox(
                           width: 330,
                           child: Column(
                             children: [
                               RepaintBoundary(
                                 key: _newKey,
-                                child: ListView.builder(
+                                child: GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                                            maxCrossAxisExtent: 300,
+                                            childAspectRatio: 1,
+                                            crossAxisSpacing: 1,
+                                            mainAxisSpacing: 1),
                                     shrinkWrap: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: (widget.imageFiles.length),
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0),
-                                        child: Container(
-                                          width: 310,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                              color: const Color.fromARGB(
-                                                  255, 7, 16, 26),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  const SizedBox(width: 10),
-                                                  ///////////////////////////////////////////////////////////////////////////
-                                                  Center(
-                                                    child: Container(
-                                                      width: 150,
-                                                      height: 120,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        shape:
-                                                            BoxShape.rectangle,
-                                                      ),
-                                                      child: Image.memory(
-                                                          widget.imageFiles[
-                                                              index]!,
-                                                          fit: BoxFit.fill),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 10),
-
-                                                  ////////////name field....
-                                                  Center(
-                                                    child: Text(
-                                                        widget
-                                                            .clientName[index],
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Poppins',
-                                                          fontSize: 14,
-                                                        )),
-                                                  ),
-                                                ]),
+                                      return GridTile(
+                                        footer: Center(
+                                          child: Text(widget.clientName[index],
+                                              style: const TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 14,
+                                              )),
+                                        ), // client name
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 16.0),
+                                          child: Container(
+                                            margin: const EdgeInsets.all(5),
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                            ),
+                                            child: Image.memory(
+                                                widget.imageFiles[index]!,
+                                                fit: BoxFit.fill),
                                           ),
                                         ),
                                       );
@@ -127,23 +104,25 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading single image...
                                     if (widget.imageFiles.length == 1) {
-                                      uploadQrData();
+                                      shotShootQr();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(
-                                        () => Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration'),
-                                      );
+                                          .whenComplete(() {
+                                        Navigator.pop(context);
+                                        Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration');
+                                      });
                                       upload1Data(widget.clientName[0]);
                                     }
                                     ////////////////////////
                                     ///uploading double image...
                                     if (widget.imageFiles.length == 2) {
-                                      uploadQrData();
+                                      shotShootQr();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(
-                                        () => Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration'),
-                                      );
+                                          .whenComplete(() {
+                                        Navigator.pop(context);
+                                        Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration');
+                                      });
                                       upload2Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -152,12 +131,13 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading triple image...
                                     if (widget.imageFiles.length == 3) {
-                                      uploadQrData();
+                                      shotShootQr();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(
-                                        () => Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration'),
-                                      );
+                                          .whenComplete(() {
+                                        Navigator.pop(context);
+                                        Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration');
+                                      });
                                       upload3Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -167,12 +147,13 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading four images...
                                     if (widget.imageFiles.length == 4) {
-                                      uploadQrData();
+                                      shotShootQr();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(
-                                        () => Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration'),
-                                      );
+                                          .whenComplete(() {
+                                        Navigator.pop(context);
+                                        Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration');
+                                      });
                                       upload4Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -184,12 +165,13 @@ class _UploadPageState extends State<UploadPage> {
                                     ////////////////////////
                                     ///uploading five images
                                     if (widget.imageFiles.length == 5) {
-                                      uploadQrData();
+                                      shotShootQr();
                                       uploadImage(widget.imageFiles.length)
-                                          .whenComplete(
-                                        () => Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration'),
-                                      );
+                                          .whenComplete(() {
+                                        Navigator.pop(context);
+                                        Beamer.of(context).beamToNamed(
+                                            '/dashboard/profile/codegeneration');
+                                      });
                                       upload5Data(
                                         widget.clientName[0],
                                         widget.clientName[1],
@@ -264,30 +246,23 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
-  Future uploadQrData() async {
-    RenderRepaintBoundary boundary =
-        _newKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    var image = await boundary.toImage(pixelRatio: 3.0);
+  final paystackPopUp = PaystackPopUp();
 
-    // creating qrimage background color........
-    final qrBackgroundColor = Paint()..color = Colors.white;
-    final qrImageRecorder = PictureRecorder();
-    final qrImageCanvas = Canvas(qrImageRecorder,
-        Rect.fromLTRB(0, 0, image.width.toDouble(), image.height.toDouble()));
-    qrImageCanvas.drawRect(
-        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
-        qrBackgroundColor);
-    qrImageCanvas.drawImage(image, Offset.zero, Paint());
-    final qrPicture = qrImageRecorder.endRecording();
-    final qrImage = await qrPicture.toImage(image.width, image.height);
-    ByteData? bytedata = await qrImage.toByteData(format: ImageByteFormat.png);
-    Uint8List pngBytes = bytedata!.buffer.asUint8List();
-
+  void shotShootQr() async {
+    Rect rect = _newKey.globalPaintBounds;
     String firebaseUser = FirebaseAuth.instance.currentUser!.uid;
+
+    final imagry = await paystackPopUp.imageIn(
+      x: rect.left,
+      y: rect.top,
+      width: rect.right,
+      height: rect.bottom,
+    );
+
     Reference storageRef =
         FirebaseStorage.instance.ref().child('$firebaseUser/qrImage');
     await storageRef
-        .putBlob(pngBytes, SettableMetadata(contentType: 'png'))
+        .putBlob(imagry, SettableMetadata(contentType: 'png'))
         .whenComplete(() async {
       await storageRef.getDownloadURL().then((value) async {
         await FirebaseFirestore.instance

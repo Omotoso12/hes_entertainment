@@ -221,19 +221,22 @@ class _SignInState extends State<SignIn> {
                       ),
                     ],
                   )),
-              SizedBox(
-                width: 300,
-                child: Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: GestureDetector(
-                    onTap: () =>
-                        Beamer.of(context).beamToNamed('/forgetpassword'),
-                    child: const Text(
-                      'forget password?',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: SizedBox(
+                  width: 300,
+                  child: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: GestureDetector(
+                      onTap: () =>
+                          Beamer.of(context).beamToNamed('/forgetpassword'),
+                      child: const Text(
+                        'forget password?',
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                      ),
                     ),
                   ),
                 ),

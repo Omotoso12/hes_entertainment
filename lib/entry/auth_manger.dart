@@ -104,6 +104,10 @@ class HandleAuth {
     }
   }
 
+  Future logOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   Future addUserDetails(
     String email,
   ) async {

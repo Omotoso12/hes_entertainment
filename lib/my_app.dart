@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       locationBuilder: RoutesLocationBuilder(routes: {
         '/dashboard': (context, state, data) => const AuthChecker(),
         '/login': (context, state, data) => const SignIn(),
-        '/forgetpassword': (context, state, data) => ForgetPasswordPage(),
+        '/forgetpassword': (context, state, data) => const ForgetPasswordPage(),
         '/signup': (context, state, data) => const SignUp(),
         '/dashboard/profile': (context, state, data) => const UserProfile(),
         '/dashboard/profile/codegeneration': (context, state, data) =>

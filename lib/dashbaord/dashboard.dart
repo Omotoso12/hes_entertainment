@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
   final firebaseUser = FirebaseAuth.instance.currentUser!.email;
   final firebaseUid = FirebaseAuth.instance.currentUser!.uid;
 
-  final Uri InstagramUrl =
+  final Uri instagramUrl =
       Uri.parse('https://www.instagram.com/hes2.5entmt?igsh=bmpmbHR1MmxtODU1');
 
   static const String whatsapp = "+2349035258990";
@@ -110,11 +110,11 @@ class _DashboardState extends State<Dashboard> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14),
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Beamer.of(context).beamToNamed(
-                                                  '/dashboard/profile');
-                                            },
+
+                                          // profile && logout button manager...////////////////////////////////
+                                          PopupMenuButton(
+                                            color: const Color.fromARGB(
+                                                255, 83, 113, 140),
                                             child: Container(
                                               height: 42,
                                               width: 42,
@@ -124,7 +124,45 @@ class _DashboardState extends State<Dashboard> {
                                               child: const Center(
                                                   child: Icon(Icons.person_2)),
                                             ),
-                                          )
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                child: TextButton(
+                                                  child: const Text(
+                                                    'profile',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14),
+                                                  ),
+                                                  onPressed: () {
+                                                    Beamer.of(context)
+                                                        .beamToNamed(
+                                                            '/dashboard/profile');
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ),
+                                              PopupMenuItem(
+                                                child: TextButton(
+                                                    child: const Text(
+                                                      'log out',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14),
+                                                    ),
+                                                    onPressed: () {
+                                                      authHandler.logOut();
+                                                      Navigator.pop(context);
+                                                    }),
+                                              ),
+                                            ],
+                                          ),
+                                          ///////////////////////////////////
                                         ],
                                       ),
                                     ),
@@ -283,7 +321,7 @@ class _DashboardState extends State<Dashboard> {
                                                       'assets/whatsapp.png')),
                                               GestureDetector(
                                                   onTap: () => _launchInsta(
-                                                      InstagramUrl),
+                                                      instagramUrl),
                                                   child: Image.asset(
                                                       height: 24,
                                                       width: 24,
@@ -327,11 +365,11 @@ class _DashboardState extends State<Dashboard> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14),
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Beamer.of(context).beamToNamed(
-                                                  '/dashboard/profile');
-                                            },
+
+                                          // profile && logout button manager...////////////////////////////////
+                                          PopupMenuButton(
+                                            color: const Color.fromARGB(
+                                                255, 83, 113, 140),
                                             child: Container(
                                               height: 42,
                                               width: 42,
@@ -341,7 +379,45 @@ class _DashboardState extends State<Dashboard> {
                                               child: const Center(
                                                   child: Icon(Icons.person_2)),
                                             ),
-                                          )
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                child: TextButton(
+                                                  child: const Text(
+                                                    'profile',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14),
+                                                  ),
+                                                  onPressed: () {
+                                                    Beamer.of(context)
+                                                        .beamToNamed(
+                                                            '/dashboard/profile');
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ),
+                                              PopupMenuItem(
+                                                child: TextButton(
+                                                    child: const Text(
+                                                      'log out',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14),
+                                                    ),
+                                                    onPressed: () {
+                                                      authHandler.logOut();
+                                                      Navigator.pop(context);
+                                                    }),
+                                              ),
+                                            ],
+                                          ),
+                                          ///////////////////////////////////
                                         ],
                                       ),
                                     ),
@@ -704,7 +780,7 @@ class _DashboardState extends State<Dashboard> {
                                                       GestureDetector(
                                                           onTap: () =>
                                                               _launchInsta(
-                                                                  InstagramUrl),
+                                                                  instagramUrl),
                                                           child: Image.asset(
                                                               height: 24,
                                                               width: 24,
