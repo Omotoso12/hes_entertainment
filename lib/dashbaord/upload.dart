@@ -32,7 +32,7 @@ class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: true,
       child: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -109,7 +109,7 @@ class _UploadPageState extends State<UploadPage> {
                                           .whenComplete(() {
                                         Navigator.pop(context);
                                         Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration');
+                                            '/dashboard/checkup_1/codegeneration');
                                       });
                                       upload1Data(widget.clientName[0]);
                                     }
@@ -121,7 +121,7 @@ class _UploadPageState extends State<UploadPage> {
                                           .whenComplete(() {
                                         Navigator.pop(context);
                                         Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration');
+                                            '/dashboard/checkup_2/codegeneration');
                                       });
                                       upload2Data(
                                         widget.clientName[0],
@@ -136,7 +136,7 @@ class _UploadPageState extends State<UploadPage> {
                                           .whenComplete(() {
                                         Navigator.pop(context);
                                         Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration');
+                                            '/dashboard/checkup_3/codegeneration');
                                       });
                                       upload3Data(
                                         widget.clientName[0],
@@ -152,7 +152,7 @@ class _UploadPageState extends State<UploadPage> {
                                           .whenComplete(() {
                                         Navigator.pop(context);
                                         Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration');
+                                            '/dashboard/checkup_4/codegeneration');
                                       });
                                       upload4Data(
                                         widget.clientName[0],
@@ -170,7 +170,7 @@ class _UploadPageState extends State<UploadPage> {
                                           .whenComplete(() {
                                         Navigator.pop(context);
                                         Beamer.of(context).beamToNamed(
-                                            '/dashboard/profile/codegeneration');
+                                            '/dashboard/checkup_5/codegeneration');
                                       });
                                       upload5Data(
                                         widget.clientName[0],

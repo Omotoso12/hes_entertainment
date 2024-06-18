@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/dashbaord/controllers.dart';
 import 'package:hes_entertainment/dashbaord/upload.dart';
@@ -11,27 +12,22 @@ import 'package:hes_entertainment/services/paystack_interop.dart';
 import 'package:hes_entertainment/widgets/form_field.dart';
 
 class CheckUp extends StatefulWidget {
-  final double value;
-  final double price;
-  final String mail;
-
-  const CheckUp(
-      {super.key,
-      required this.value,
-      required this.price,
-      required this.mail});
+  const CheckUp({super.key});
 
   @override
   State<CheckUp> createState() => _CheckUpState();
 }
 
+const double price = 4000;
+const double value = 1;
 late List<AllControl> allControl;
 late List<Uint8List?> imageFiles;
 late List<String> nameOfImages;
 List<String> storageName = [
   'first',
 ];
-
+final firebaseUser = FirebaseAuth.instance.currentUser!.email;
+final String email = firebaseUser.toString();
 // gemerate referense number
 String generateRef() {
   final randomCode = Random().nextInt(3234234);
@@ -47,7 +43,7 @@ class _CheckUpState extends State<CheckUp> {
     allControl = <AllControl>[
       AllControl(
         numb: 1.0,
-        visible: (widget.value == 1) ? visi : false,
+        visible: (value == 1) ? visi : false,
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
@@ -146,9 +142,9 @@ class _CheckUpState extends State<CheckUp> {
                                       fontSize: 24),
                                 ),
                                 const Text(
-                                  'Please enter name and upload images of the\nparty attendants.',
+                                  'Please enter name and upload images of the\nparty attendants. Use only personal image\nmatching with the name provided as\nusing any other image will not allow\nyou access to the event.',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.red,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
@@ -165,20 +161,20 @@ class _CheckUpState extends State<CheckUp> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount: (widget.value.toInt()),
+                                      itemCount: (value.toInt()),
                                       itemBuilder: (context, index) {
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           child: Container(
                                             width: 330,
-                                            height: (widget.value ==
+                                            height: (value ==
                                                         allControl[index]
                                                             .numb &&
                                                     visi == true &&
                                                     imageFiles.any((element) =>
                                                         element != null))
-                                                ? 260
+                                                ? 270
                                                 : 210,
                                             decoration: BoxDecoration(
                                                 color: const Color.fromARGB(
@@ -323,7 +319,7 @@ class _CheckUpState extends State<CheckUp> {
                                                           if (text.characters
                                                                       .length >=
                                                                   3 &&
-                                                              (widget.value ==
+                                                              (value ==
                                                                   allControl[
                                                                           index]
                                                                       .numb)) {
@@ -343,7 +339,7 @@ class _CheckUpState extends State<CheckUp> {
                                                       ),
                                                     ),
                                                     Visibility(
-                                                      visible: (widget.value ==
+                                                      visible: (value ==
                                                                   allControl[
                                                                           index]
                                                                       .numb &&
@@ -358,37 +354,64 @@ class _CheckUpState extends State<CheckUp> {
                                                             const EdgeInsets
                                                                 .only(
                                                                 top: 10.0),
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            paystackPop();
-                                                          },
-                                                          style: ElevatedButton.styleFrom(
-                                                              fixedSize:
-                                                                  const Size(
-                                                                      180, 41),
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      bottom:
+                                                                          5.0),
+                                                              child: Text(
+                                                                'Charges: N100',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                paystackPop();
+                                                              },
+                                                              style: ElevatedButton.styleFrom(
+                                                                  fixedSize:
+                                                                      const Size(
+                                                                          180, 41),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10))),
-                                                          child: const Text(
-                                                            'Pay with Paystack',
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Color.fromARGB(
-                                                                        255,
-                                                                        83,
-                                                                        113,
-                                                                        140),
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 14),
-                                                          ),
+                                                              child: const Text(
+                                                                'Pay with Paystack',
+                                                                style: TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            83,
+                                                                            113,
+                                                                            140),
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
@@ -427,7 +450,7 @@ class _CheckUpState extends State<CheckUp> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(context,
+                                Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
                                   return UploadPage(
                                     imageFiles: imageFiles,
@@ -438,6 +461,9 @@ class _CheckUpState extends State<CheckUp> {
                                     ],
                                   );
                                 }));
+                                setState(() {
+                                  uploading = !uploading;
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                   fixedSize: const Size(180, 41),
@@ -484,11 +510,13 @@ class _CheckUpState extends State<CheckUp> {
 
   void paystackPop() {
     paystackPopUp.openPayWithPaystack(
-      email: widget.mail,
-      amount: (widget.price * 100).toString(),
+      email: email,
+      amount: (price * 100 + 10000).toString(),
       ref: ref,
       whenClose: () {
         const snackBar = SnackBar(
+          backgroundColor: Colors.black26,
+          duration: Durations.short1,
           content: Text(
             'Could\'nt finish payment',
             style: TextStyle(
@@ -502,7 +530,7 @@ class _CheckUpState extends State<CheckUp> {
       },
       whenSucess: () {
         setState(() {
-          uploading = true;
+          uploading = !uploading;
         });
       },
     );

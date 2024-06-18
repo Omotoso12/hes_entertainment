@@ -211,7 +211,7 @@ class _SignUpState extends State<SignUp> {
                                   validator: (value) {
                                     if (value == null ||
                                         !value.isValidPassword) {
-                                      return 'Please enter a valid password';
+                                      return 'password must contain character,\nuppercase,lowercase,number.';
                                     }
                                     if (value.length <= 6) {
                                       return 'password must be more than six';

@@ -2,11 +2,6 @@ import 'package:beamer/beamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hes_entertainment/dashbaord/check_up.dart';
-import 'package:hes_entertainment/dashbaord/check_up1.dart';
-import 'package:hes_entertainment/dashbaord/check_up2.dart';
-import 'package:hes_entertainment/dashbaord/check_up3.dart';
-import 'package:hes_entertainment/dashbaord/check_up4.dart';
 import 'package:hes_entertainment/entry/auth_manger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,7 +51,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final List<String> name = firebaseUser.toString().split('@');
-    final String email = firebaseUser.toString();
     final url = gmailUrl.toString();
     final urlPath = Uri.parse(url);
     return Scaffold(
@@ -660,59 +654,24 @@ class _DashboardState extends State<Dashboard> {
                                       onPressed: _visible
                                           ? () {
                                               if (_result == 1) {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return CheckUp(
-                                                    value: _result,
-                                                    price: _price,
-                                                    mail: email,
-                                                  );
-                                                }));
+                                                Beamer.of(context).beamToNamed(
+                                                    '/dashboard/checkup_1');
                                               }
                                               if (_result == 2) {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return CheckUp1(
-                                                    value: _result,
-                                                    price: _price,
-                                                    mail: email,
-                                                  );
-                                                }));
+                                                Beamer.of(context).beamToNamed(
+                                                    '/dashboard/checkup_2');
                                               }
                                               if (_result == 3) {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return CheckUp2(
-                                                    value: _result,
-                                                    price: _price,
-                                                    mail: email,
-                                                  );
-                                                }));
+                                                Beamer.of(context).beamToNamed(
+                                                    '/dashboard/checkup_3');
                                               }
                                               if (_result == 4) {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return CheckUp3(
-                                                    value: _result,
-                                                    price: _price,
-                                                    mail: email,
-                                                  );
-                                                }));
+                                                Beamer.of(context).beamToNamed(
+                                                    '/dashboard/checkup_4');
                                               }
                                               if (_result == 5) {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return CheckUp4(
-                                                    value: _result,
-                                                    price: _price,
-                                                    mail: email,
-                                                  );
-                                                }));
+                                                Beamer.of(context).beamToNamed(
+                                                    '/dashboard/checkup_5');
                                               }
                                             }
                                           : null,

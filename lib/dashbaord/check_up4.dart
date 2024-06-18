@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/dashbaord/check_up.dart';
 import 'package:hes_entertainment/dashbaord/controllers.dart';
@@ -10,24 +11,22 @@ import 'package:hes_entertainment/widgets/form_field.dart';
 import '../services/paystack_interop.dart';
 
 class CheckUp4 extends StatefulWidget {
-  final double value;
-  final double price;
-  final String mail;
-
-  const CheckUp4(
-      {super.key,
-      required this.value,
-      required this.price,
-      required this.mail});
+  const CheckUp4({
+    super.key,
+  });
 
   @override
   State<CheckUp4> createState() => _CheckUp4State();
 }
 
+const double price = 20000;
+const double value = 5;
 late List<AllControl> allControl;
 late List<Uint8List?> imageFiles;
 late List<String> nameOfImages;
 List<String> storageName = ['first', 'second', 'third', 'fouth', 'fifth'];
+final firebaseUser = FirebaseAuth.instance.currentUser!.email;
+final String email = firebaseUser.toString();
 
 bool visi = false;
 bool uploading = false;
@@ -39,31 +38,31 @@ class _CheckUp4State extends State<CheckUp4> {
     allControl = <AllControl>[
       AllControl(
         numb: 1.0,
-        visible: (widget.value == 1) ? visi : false,
+        visible: (value == 1) ? visi : false,
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
       AllControl(
         numb: 2.0,
-        visible: (widget.value == 2) ? visi : false,
+        visible: (value == 2) ? visi : false,
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
       AllControl(
         numb: 3.0,
-        visible: (widget.value == 3) ? visi : false,
+        visible: (value == 3) ? visi : false,
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
       AllControl(
         numb: 4.0,
-        visible: (widget.value == 4) ? visi : false,
+        visible: (value == 4) ? visi : false,
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
       AllControl(
         numb: 5.0,
-        visible: (widget.value == 5) ? visi : false,
+        visible: (value == 5) ? visi : false,
         controller: TextEditingController(),
         formKey: GlobalKey<FormState>(),
       ),
@@ -166,9 +165,9 @@ class _CheckUp4State extends State<CheckUp4> {
                                       fontSize: 24),
                                 ),
                                 const Text(
-                                  'Please enter name and upload images of the\nparty attendants.',
+                                  'Please enter name and upload images of the\nparty attendants. Use only personal image\nmatching with the name provided as\nusing any other image will not allow\nyou access to the event.',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.red,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
@@ -185,21 +184,21 @@ class _CheckUp4State extends State<CheckUp4> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount: (widget.value.toInt()),
+                                      itemCount: (value.toInt()),
                                       itemBuilder: (context, index) {
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           child: Container(
                                             width: 330,
-                                            height: (widget.value ==
+                                            height: (value ==
                                                         allControl[index]
                                                             .numb &&
                                                     visi == true &&
                                                     imageFiles.every(
                                                         (element) =>
                                                             element != null))
-                                                ? 260
+                                                ? 270
                                                 : 210,
                                             decoration: BoxDecoration(
                                                 color: const Color.fromARGB(
@@ -344,7 +343,7 @@ class _CheckUp4State extends State<CheckUp4> {
                                                           if (text.characters
                                                                       .length >=
                                                                   3 &&
-                                                              (widget.value ==
+                                                              (value ==
                                                                   allControl[
                                                                           index]
                                                                       .numb)) {
@@ -364,7 +363,7 @@ class _CheckUp4State extends State<CheckUp4> {
                                                       ),
                                                     ),
                                                     Visibility(
-                                                      visible: (widget.value ==
+                                                      visible: (value ==
                                                                   allControl[
                                                                           index]
                                                                       .numb &&
@@ -379,39 +378,66 @@ class _CheckUp4State extends State<CheckUp4> {
                                                             const EdgeInsets
                                                                 .only(
                                                                 top: 10.0),
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            paystackPop();
-                                                          },
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      bottom:
+                                                                          5.0),
+                                                              child: Text(
+                                                                'Charges: N100',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                paystackPop();
+                                                              },
 
-                                                          ///
-                                                          style: ElevatedButton.styleFrom(
-                                                              fixedSize:
-                                                                  const Size(
-                                                                      180, 41),
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
+                                                              ///
+                                                              style: ElevatedButton.styleFrom(
+                                                                  fixedSize:
+                                                                      const Size(
+                                                                          180, 41),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10))),
-                                                          child: const Text(
-                                                            'Pay with Paystack',
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Color.fromARGB(
-                                                                        255,
-                                                                        83,
-                                                                        113,
-                                                                        140),
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 14),
-                                                          ),
+                                                              child: const Text(
+                                                                'Pay with Paystack',
+                                                                style: TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            83,
+                                                                            113,
+                                                                            140),
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
@@ -454,7 +480,7 @@ class _CheckUp4State extends State<CheckUp4> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(context,
+                                Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
                                   return UploadPage(
                                     imageFiles: imageFiles,
@@ -469,6 +495,9 @@ class _CheckUp4State extends State<CheckUp4> {
                                     ],
                                   );
                                 }));
+                                setState(() {
+                                  uploading = !uploading;
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                   fixedSize: const Size(180, 41),
@@ -515,11 +544,13 @@ class _CheckUp4State extends State<CheckUp4> {
 
   void paystackPop() {
     paystackPopUp.openPayWithPaystack(
-      email: widget.mail,
-      amount: (widget.price * 100).toString(),
+      email: email,
+      amount: (price * 100 + 10000).toString(),
       ref: ref,
       whenClose: () {
         const snackBar = SnackBar(
+          backgroundColor: Colors.black26,
+          duration: Durations.short1,
           content: Text(
             'Could\'nt finish payment',
             style: TextStyle(

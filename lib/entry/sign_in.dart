@@ -208,7 +208,7 @@ class _SignInState extends State<SignIn> {
                               controller: _passwordFieldController,
                               validator: (value) {
                                 if (value == null || !value.isValidPassword) {
-                                  return 'Please enter a stronger password';
+                                  return 'password must contain character,\nuppercase,lowercase,number.';
                                 }
                                 if (value.characters.length <= 6) {
                                   return 'password must be more than six';

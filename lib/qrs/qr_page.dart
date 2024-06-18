@@ -113,6 +113,9 @@ class _QrPageState extends State<QrPage> {
                         child: ElevatedButton(
                           onPressed: () {
                             Beamer.of(context).beamToNamed('/dashboard');
+                            setState(() {
+                              done = !done;
+                            });
                           },
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(185, 48),
@@ -172,6 +175,8 @@ class _QrPageState extends State<QrPage> {
         done = true;
       });
       const snackBar = SnackBar(
+        backgroundColor: Colors.black26,
+        duration: Durations.short1,
         content: Text(
           'QR code saved to Gallery',
           style: TextStyle(
@@ -185,6 +190,8 @@ class _QrPageState extends State<QrPage> {
     } catch (e) {
       if (!mounted) return;
       final snackBar = SnackBar(
+        backgroundColor: Colors.black26,
+        duration: Durations.short1,
         content: Text(
           '$e',
           style: const TextStyle(
