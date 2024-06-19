@@ -76,6 +76,7 @@ class _CheckUp2State extends State<CheckUp2> {
     return PopScope(
       canPop: !uploading,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             !uploading

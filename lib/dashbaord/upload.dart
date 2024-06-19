@@ -55,45 +55,81 @@ class _UploadPageState extends State<UploadPage> {
                           width: 330,
                           child: Column(
                             children: [
-                              RepaintBoundary(
-                                key: _newKey,
-                                child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 300,
-                                            childAspectRatio: 1,
-                                            crossAxisSpacing: 1,
-                                            mainAxisSpacing: 1),
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: (widget.imageFiles.length),
-                                    itemBuilder: (context, index) {
-                                      return GridTile(
-                                        footer: Center(
-                                          child: Text(widget.clientName[index],
-                                              style: const TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 14,
-                                              )),
-                                        ), // client name
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 16.0),
-                                          child: Container(
-                                            margin: const EdgeInsets.all(5),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: const BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                            ),
+                              if (widget.imageFiles.length == 1)
+                                RepaintBoundary(
+                                  key: _newKey,
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                            width: 250,
+                                            height: 250,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                      spreadRadius: 1.0,
+                                                      blurRadius: 6.0)
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                border: Border.all(
+                                                    color: const Color.fromARGB(
+                                                        255, 83, 113, 140),
+                                                    width: 6)),
                                             child: Image.memory(
-                                                widget.imageFiles[index]!,
-                                                fit: BoxFit.fill),
+                                                widget.imageFiles[0]!,
+                                                fit: BoxFit.fill)),
+                                        Text(widget.clientName[0],
+                                            style: const TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 14,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              if (widget.imageFiles.length != 1)
+                                RepaintBoundary(
+                                  key: _newKey,
+                                  child: GridView.builder(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                              maxCrossAxisExtent: 300,
+                                              childAspectRatio: 1,
+                                              crossAxisSpacing: 1,
+                                              mainAxisSpacing: 1),
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: (widget.imageFiles.length),
+                                      itemBuilder: (context, index) {
+                                        return GridTile(
+                                          footer: Center(
+                                            child:
+                                                Text(widget.clientName[index],
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      fontSize: 14,
+                                                    )),
+                                          ), // client name
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 16.0),
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                              ),
+                                              child: Image.memory(
+                                                  widget.imageFiles[index]!,
+                                                  fit: BoxFit.fill),
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }),
-                              ),
+                                        );
+                                      }),
+                                ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 10.0),
                                 child: ElevatedButton(
