@@ -46,6 +46,7 @@ dependencies:
   flutter_paystack: ^1.0.7
   url_launcher: ^6.2.6
   http: ^0.13.6
+  animated_text_kit: ^4.2.2
 
 
 

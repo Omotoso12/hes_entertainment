@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:beamer/beamer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -95,25 +96,43 @@ class _AuthCheckerState extends State<AuthChecker> {
                             ),
 
                             SizedBox(
-                              width: 265,
+                              width: 310,
+                              height: 80,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
                                     'Payments',
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  const Text(
-                                    'Safer',
-                                    style: TextStyle(
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  SizedBox(
+                                      child: DefaultTextStyle(
+                                    style: const TextStyle(
                                         color:
                                             Color.fromARGB(255, 162, 210, 24),
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 32),
-                                  ),
+                                    child: AnimatedTextKit(
+                                      repeatForever: true,
+                                      pause: const Duration(milliseconds: 3000),
+                                      animatedTexts: [
+                                        RotateAnimatedText('Safer',
+                                            duration: Durations.short4,
+                                            rotateOut: false),
+                                        RotateAnimatedText('Secure',
+                                            duration: Durations.short4,
+                                            rotateOut: false),
+                                        RotateAnimatedText('Efficient',
+                                            duration: Durations.short4,
+                                            rotateOut: false),
+                                      ],
+                                    ),
+                                  )),
                                 ],
                               ),
                             ),

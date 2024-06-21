@@ -1,5 +1,4 @@
 import 'package:beamer/beamer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hes_entertainment/entry/auth_manger.dart';
 import 'package:hes_entertainment/widgets/form_field.dart';

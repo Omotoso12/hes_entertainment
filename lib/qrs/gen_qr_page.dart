@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,11 @@ class GenerateQr extends StatefulWidget {
 
 class _GenerateQrState extends State<GenerateQr> {
   final firebaseUid = FirebaseAuth.instance.currentUser!.uid;
+  final firebaseUser = FirebaseAuth.instance.currentUser!.email;
 
   @override
   Widget build(BuildContext context) {
+    final List<String> name = firebaseUser.toString().split('@');
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -78,10 +81,10 @@ class _GenerateQrState extends State<GenerateQr> {
                                 ),
 
                                 SizedBox(
-                                  width: 265,
+                                  width: 310,
+                                  height: 80,
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Payments',
@@ -89,15 +92,34 @@ class _GenerateQrState extends State<GenerateQr> {
                                             .textTheme
                                             .bodyLarge,
                                       ),
-                                      const Text(
-                                        'Safer',
-                                        style: TextStyle(
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      SizedBox(
+                                          child: DefaultTextStyle(
+                                        style: const TextStyle(
                                             color: Color.fromARGB(
                                                 255, 162, 210, 24),
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.bold,
                                             fontSize: 32),
-                                      ),
+                                        child: AnimatedTextKit(
+                                          repeatForever: true,
+                                          pause: const Duration(
+                                              milliseconds: 3000),
+                                          animatedTexts: [
+                                            RotateAnimatedText('Safer',
+                                                duration: Durations.short4,
+                                                rotateOut: false),
+                                            RotateAnimatedText('Secure',
+                                                duration: Durations.short4,
+                                                rotateOut: false),
+                                            RotateAnimatedText('Efficient',
+                                                duration: Durations.short4,
+                                                rotateOut: false),
+                                          ],
+                                        ),
+                                      )),
                                     ],
                                   ),
                                 ),
@@ -116,11 +138,11 @@ class _GenerateQrState extends State<GenerateQr> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 24),
                                 ),
-                                const SizedBox(
-                                  width: 210,
+                                SizedBox(
+                                  width: 310,
                                   child: Row(
                                     children: <Widget>[
-                                      Text(
+                                      const Text(
                                         'Welcome',
                                         style: TextStyle(
                                             color: Color.fromARGB(
@@ -130,10 +152,11 @@ class _GenerateQrState extends State<GenerateQr> {
                                             fontSize: 14),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: Text(
-                                          '@ajaorichard30',
-                                          style: TextStyle(
+                                          '@${name[0]}',
+                                          style: const TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w500,
                                               fontSize: 14),

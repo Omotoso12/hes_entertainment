@@ -1,7 +1,10 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:beamer/beamer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hes_entertainment/entry/auth_manger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,6 +26,7 @@ class _DashboardState extends State<Dashboard> {
   double _price = 0.0;
   bool _visible = false;
   final HandleAuth authHandler = HandleAuth();
+  bool _accepted = false;
 
   final _radioOptions = [
     TimeValue(1, "1 person"),
@@ -174,10 +178,11 @@ class _DashboardState extends State<Dashboard> {
                                     ),
 
                                     SizedBox(
-                                      width: 265,
+                                      width: 310,
+                                      height: 80,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             'Payments',
@@ -185,15 +190,34 @@ class _DashboardState extends State<Dashboard> {
                                                 .textTheme
                                                 .bodyLarge,
                                           ),
-                                          const Text(
-                                            'Safer',
-                                            style: TextStyle(
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                              child: DefaultTextStyle(
+                                            style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 162, 210, 24),
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 32),
-                                          ),
+                                            child: AnimatedTextKit(
+                                              repeatForever: true,
+                                              pause: const Duration(
+                                                  milliseconds: 3000),
+                                              animatedTexts: [
+                                                RotateAnimatedText('Safer',
+                                                    duration: Durations.short4,
+                                                    rotateOut: false),
+                                                RotateAnimatedText('Secure',
+                                                    duration: Durations.short4,
+                                                    rotateOut: false),
+                                                RotateAnimatedText('Efficient',
+                                                    duration: Durations.short4,
+                                                    rotateOut: false),
+                                              ],
+                                            ),
+                                          )),
                                         ],
                                       ),
                                     ),
@@ -429,10 +453,11 @@ class _DashboardState extends State<Dashboard> {
                                     ),
 
                                     SizedBox(
-                                      width: 265,
+                                      width: 310,
+                                      height: 80,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             'Payments',
@@ -440,15 +465,34 @@ class _DashboardState extends State<Dashboard> {
                                                 .textTheme
                                                 .bodyLarge,
                                           ),
-                                          const Text(
-                                            'Safer',
-                                            style: TextStyle(
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                              child: DefaultTextStyle(
+                                            style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 162, 210, 24),
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 32),
-                                          ),
+                                            child: AnimatedTextKit(
+                                              repeatForever: true,
+                                              pause: const Duration(
+                                                  milliseconds: 3000),
+                                              animatedTexts: [
+                                                RotateAnimatedText('Safer',
+                                                    duration: Durations.short4,
+                                                    rotateOut: false),
+                                                RotateAnimatedText('Secure',
+                                                    duration: Durations.short4,
+                                                    rotateOut: false),
+                                                RotateAnimatedText('Efficient',
+                                                    duration: Durations.short4,
+                                                    rotateOut: false),
+                                              ],
+                                            ),
+                                          )),
                                         ],
                                       ),
                                     ),
@@ -650,44 +694,114 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                     ),
 
-                                    ElevatedButton(
-                                      onPressed: _visible
-                                          ? () {
-                                              if (_result == 1) {
+                                    Visibility(
+                                      visible: _visible,
+                                      child: SizedBox(
+                                        width: 300,
+                                        child: Row(
+                                          children: <Widget>[
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  _accepted = !_accepted;
+                                                });
+                                              },
+                                              child: _accepted
+                                                  ? const Icon(
+                                                      Icons.check_box_sharp,
+                                                      color: Colors.white,
+                                                    )
+                                                  : const Icon(
+                                                      Icons
+                                                          .check_box_outline_blank,
+                                                      color: Colors.white,
+                                                    ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
                                                 Beamer.of(context).beamToNamed(
-                                                    '/dashboard/checkup_1');
+                                                    '/termsAndAgreement');
+                                              },
+                                              child: const Text(
+                                                'Terms and conditions',
+                                                style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    color: Colors.white),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                    Visibility(
+                                      visible: _visible,
+                                      child: const SizedBox(
+                                        height: 10,
+                                      ),
+                                    ),
+
+                                    Visibility(
+                                      visible: _visible,
+                                      child: ElevatedButton(
+                                        onPressed: _visible && _accepted
+                                            ? () {
+                                                if (_result == 1) {
+                                                  Beamer.of(context).beamToNamed(
+                                                      '/dashboard/checkup_1');
+                                                  setState(() {
+                                                    _accepted = false;
+                                                  });
+                                                }
+                                                if (_result == 2) {
+                                                  Beamer.of(context).beamToNamed(
+                                                      '/dashboard/checkup_2');
+                                                  setState(() {
+                                                    _accepted = false;
+                                                  });
+                                                }
+                                                if (_result == 3) {
+                                                  Beamer.of(context).beamToNamed(
+                                                      '/dashboard/checkup_3');
+                                                  setState(() {
+                                                    _accepted = false;
+                                                  });
+                                                }
+                                                if (_result == 4) {
+                                                  Beamer.of(context).beamToNamed(
+                                                      '/dashboard/checkup_4');
+                                                  setState(() {
+                                                    _accepted = false;
+                                                  });
+                                                }
+                                                if (_result == 5) {
+                                                  Beamer.of(context).beamToNamed(
+                                                      '/dashboard/checkup_5');
+                                                  setState(() {
+                                                    _accepted = false;
+                                                  });
+                                                }
                                               }
-                                              if (_result == 2) {
-                                                Beamer.of(context).beamToNamed(
-                                                    '/dashboard/checkup_2');
-                                              }
-                                              if (_result == 3) {
-                                                Beamer.of(context).beamToNamed(
-                                                    '/dashboard/checkup_3');
-                                              }
-                                              if (_result == 4) {
-                                                Beamer.of(context).beamToNamed(
-                                                    '/dashboard/checkup_4');
-                                              }
-                                              if (_result == 5) {
-                                                Beamer.of(context).beamToNamed(
-                                                    '/dashboard/checkup_5');
-                                              }
-                                            }
-                                          : null,
-                                      style: ElevatedButton.styleFrom(
-                                          fixedSize: const Size(120, 38),
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      child: const Text(
-                                        'Proceed',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14),
+                                            : () {},
+                                        style: ElevatedButton.styleFrom(
+                                            fixedSize: const Size(120, 38),
+                                            backgroundColor: _accepted
+                                                ? Colors.white
+                                                : Colors.white24,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                        child: const Text(
+                                          'Proceed',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14),
+                                        ),
                                       ),
                                     ),
 
@@ -753,6 +867,10 @@ class _DashboardState extends State<Dashboard> {
                                                               width: 24,
                                                               'assets/gmail.png')),
                                                     ])))),
+
+                                    const SizedBox(
+                                      height: 20,
+                                    )
                                   ],
                                 ),
                               ),

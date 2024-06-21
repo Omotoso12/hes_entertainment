@@ -6,6 +6,7 @@ import 'package:hes_entertainment/dashbaord/check_up1.dart';
 import 'package:hes_entertainment/dashbaord/check_up2.dart';
 import 'package:hes_entertainment/dashbaord/check_up3.dart';
 import 'package:hes_entertainment/dashbaord/check_up4.dart';
+import 'package:hes_entertainment/entry/agreement.dart';
 import 'package:hes_entertainment/entry/auth_check.dart';
 import 'package:hes_entertainment/entry/forget.dart';
 import 'package:hes_entertainment/entry/sign_in.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
         '/login': (context, state, data) => const SignIn(),
         '/forgetpassword': (context, state, data) => const ForgetPasswordPage(),
         '/signup': (context, state, data) => const SignUp(),
+        '/termsAndAgreement': (context, state, data) => const TermsCondition(),
         '/dashboard/checkup_1': (context, state, data) => const CheckUp(),
         '/dashboard/checkup_2': (context, state, data) => const CheckUp1(),
         '/dashboard/checkup_3': (context, state, data) => const CheckUp2(),
